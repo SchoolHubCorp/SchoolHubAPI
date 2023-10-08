@@ -1,7 +1,9 @@
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using SchoolHubApi.Data;
 using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
+using System.Linq.Expressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 var app = builder.Build();
 

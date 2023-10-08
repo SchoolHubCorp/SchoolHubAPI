@@ -1,11 +1,7 @@
-﻿using SchoolHubApi.Models.Domain;
+﻿using Domain.Entities;
 
-namespace SchoolHubApi.Repositories.Interface
+namespace SchoolHubApi.Repositories.Interface;
+
+public interface IUserRepository : IBaseRepository<User>
 {
-    public interface IUserRepository
-    {
-        Task<User> CreateAsync(User user);
-
-        Task<List<User>> GetAsync();
-    }
 }
