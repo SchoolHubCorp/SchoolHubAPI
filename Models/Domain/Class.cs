@@ -8,7 +8,9 @@ namespace SchoolHubApi.Models.Domain
         public string Classname { get; set; }
         public string Plan { get; set; }
 
-        public List<CourseClass> CourseClasses { get; } = new();
         public List<Pupil> Pupils { get; } = new();
+        public List<CourseClass> CourseClasses { get; } = new();
+
+
     }
 }

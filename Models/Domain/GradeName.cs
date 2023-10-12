@@ -4,9 +4,9 @@ namespace SchoolHubApi.Models.Domain
 {
     public class GradeName
     {
-        public int GradeTypeId { get; set; }
-        public string Type { get; set; }
+        public int GradeNameId { get; set; }
+        public string Name { get; set; }
 
-        public List<ClassCoursePupilGrades> ClassCoursePupilGradeses { get; } = new();
+        public List<ClassCoursePupilGrade> ClassCoursePupilGrades { get; } = new();
     }
 }

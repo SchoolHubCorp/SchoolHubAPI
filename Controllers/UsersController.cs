@@ -34,7 +34,7 @@ namespace SchoolHubApi.Controllers
             {
                 users = new()
                 {
-                    Name = user.Name,
+                    Name = user.FirstName,
                     LastName = user.LastName,
                 };
                 responseUsersList.Add(users);
@@ -48,7 +48,7 @@ namespace SchoolHubApi.Controllers
         {
             var user = new User
             {
-                Name = request.Name,
+                FirstName = request.Name,
                 LastName = request.LastName,
             };
 
@@ -56,8 +56,8 @@ namespace SchoolHubApi.Controllers
 
             var response = new UserDto
             {
-                Id = user.Id,
-                Name = user.Name,
+                Id = user.UserId,
+                Name = user.FirstName,
                 LastName = user.LastName,
             };
 

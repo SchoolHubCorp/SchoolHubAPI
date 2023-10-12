@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolHubApi.Models.Domain
@@ -14,11 +14,14 @@ namespace SchoolHubApi.Models.Domain
         public int AccessCode { get; set; }
         public int Pesel { get; set; }
 
-        public ICollection<ParentChild> ParentRelations { get; set; }
-    
+        public ICollection<ParentChild> Children { get; set; } 
+        public ICollection<ParentChild> Parents { get; set; }
         public List<UserRole> UserRoles { get; } = new();
         public List<CourseClass> CourseClasses { get; } = new();
-
         public List<Pupil> Pupils { get; } = new();
+
+
+
+
     }
 }

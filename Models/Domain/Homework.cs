@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolHubApi.Models.Domain
@@ -9,9 +10,6 @@ namespace SchoolHubApi.Models.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
-        public string CourseClassCourseClassId { get; set; }
-
-        public ClassCourse ClassCourse { get; set; } = null!
 
         public List<HomeworkPupil> HomeworkPupils { get; } = new();
     }

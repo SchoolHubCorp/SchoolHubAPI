@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "Y:\\.Net Study\\SchoolHub\\SchoolHubApi\\SchoolHubApi.csproj": {}
+    "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj": {}
   },
   "projects": {
-    "Y:\\.Net Study\\SchoolHub\\SchoolHubApi\\SchoolHubApi.csproj": {
+    "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\.Net Study\\SchoolHub\\SchoolHubApi\\SchoolHubApi.csproj",
+        "projectUniqueName": "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj",
         "projectName": "SchoolHubApi",
-        "projectPath": "Y:\\.Net Study\\SchoolHub\\SchoolHubApi\\SchoolHubApi.csproj",
-        "packagesPath": "C:\\Users\\mzima\\.nuget\\packages\\",
-        "outputPath": "Y:\\.Net Study\\SchoolHub\\SchoolHubApi\\obj\\",
+        "projectPath": "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj",
+        "packagesPath": "C:\\Users\\vlad_\\.nuget\\packages\\",
+        "outputPath": "D:\\Schoolhub\\SchoolHubAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mzima\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vlad_\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,6 +43,12 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -78,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
