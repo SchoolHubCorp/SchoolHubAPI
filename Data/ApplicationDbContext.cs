@@ -41,7 +41,5 @@ namespace SchoolHubApi.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
     }
-
 }

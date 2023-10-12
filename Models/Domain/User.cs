@@ -19,9 +19,5 @@ namespace SchoolHubApi.Models.Domain
         public List<UserRole> UserRoles { get; } = new();
         public List<CourseClass> CourseClasses { get; } = new();
         public List<Pupil> Pupils { get; } = new();
-
-
-
-
     }
 }
