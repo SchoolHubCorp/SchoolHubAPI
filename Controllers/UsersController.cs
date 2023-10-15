@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolHubApi.Data;
 using SchoolHubApi.Models.Domain;
 using SchoolHubApi.Models.DTO;
+using SchoolHubApi.Models.Validators;
 using SchoolHubApi.Repositories.Interface;
 
 namespace SchoolHubApi.Controllers
@@ -56,7 +57,6 @@ namespace SchoolHubApi.Controllers
 
             var response = new UserDto
             {
-                Id = user.UserId,
                 Name = user.FirstName,
                 LastName = user.LastName,
             };

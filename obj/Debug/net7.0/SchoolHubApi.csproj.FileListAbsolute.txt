@@ -150,3 +150,9 @@ D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\scopedcss\bundle\SchoolHubApi.styles.
 D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.CopyComplete
 D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.genruntimeconfig.cache
 D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\ref\SchoolHubApi.dll
+D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\AutoMapper.dll
+D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\FluentValidation.dll
+D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\FluentValidation.AspNetCore.dll
+D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\FluentValidation.DependencyInjectionExtensions.dll
+D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

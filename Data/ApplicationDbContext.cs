@@ -7,14 +7,14 @@ namespace SchoolHubApi.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
-
+            public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+                : base(options){}
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<ParentChild> Parentchildren { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Class> Classes { get; set; }
+        public DbSet<Startup> Classes { get; set; }
         public DbSet<CourseClass> CourseClasses { get; set; }
         public DbSet<Homework> Homeworks { get; set; }
         public DbSet<Pupil> Pupils { get; set; }

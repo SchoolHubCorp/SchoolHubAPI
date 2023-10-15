@@ -1,4 +1,4 @@
-﻿namespace SchoolHubApi.Models.DTO
+﻿namespace SchoolHubApi.Models.Validators
 {
     public class CreateUserRequestDto
     {
