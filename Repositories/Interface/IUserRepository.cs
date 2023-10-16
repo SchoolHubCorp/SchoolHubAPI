@@ -1,11 +1,10 @@
-﻿using SchoolHubApi.Models.Domain;
+﻿using System.Linq.Expressions;
+using SchoolHubApi.Domain.Entities;
 
 namespace SchoolHubApi.Repositories.Interface
 {
-    public interface IUserRepository
+    public interface IUserRepository 
     {
-        Task<User> CreateAsync(User user);
-
-        Task<List<User>> GetAsync();
+        IQueryable<UserData> Find(Expression<Func<UserData, bool>> expression);
     }
 }

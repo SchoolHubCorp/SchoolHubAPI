@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj": {}
+    "C:\\SomePJ\\SchoolHubAPI\\SchoolHubApi.csproj": {}
   },
   "projects": {
-    "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj": {
+    "C:\\SomePJ\\SchoolHubAPI\\SchoolHubApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj",
+        "projectUniqueName": "C:\\SomePJ\\SchoolHubAPI\\SchoolHubApi.csproj",
         "projectName": "SchoolHubApi",
-        "projectPath": "D:\\Schoolhub\\SchoolHubAPI\\SchoolHubApi.csproj",
-        "packagesPath": "C:\\Users\\vlad_\\.nuget\\packages\\",
-        "outputPath": "D:\\Schoolhub\\SchoolHubAPI\\obj\\",
+        "projectPath": "C:\\SomePJ\\SchoolHubAPI\\SchoolHubApi.csproj",
+        "packagesPath": "C:\\Users\\vovan\\.nuget\\packages\\",
+        "outputPath": "C:\\SomePJ\\SchoolHubAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\vlad_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vovan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -48,10 +48,6 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
-            "FluentValidation.AspNetCore": {
-              "target": "Package",
-              "version": "[11.3.0, )"
-            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[7.0.12, )"
@@ -79,6 +75,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[7.0.11, )"
             }
           },
           "imports": [
@@ -100,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

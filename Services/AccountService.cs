@@ -1,5 +1,6 @@
-﻿using SchoolHubApi.Models.DTO;
-using SchoolHubApi.Models.Domain;
+﻿using SchoolHubApi.Domain.Entities;
+using SchoolHubApi.Models.UserDto;
+
 namespace SchoolHubApi.Services
 {
     public interface IAccountService 
@@ -10,7 +11,7 @@ namespace SchoolHubApi.Services
     {
         public void RegisterUser(UserDto dto) 
         {
-            var newUser = new User()
+            var newUser = new UserData()
             {
                 Email = dto.Email
             };

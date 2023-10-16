@@ -1,67 +1,177 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolHubApi.Data;
-using SchoolHubApi.Models.Domain;
-using SchoolHubApi.Models.DTO;
-using SchoolHubApi.Models.Validators;
+using SchoolHubApi.Domain.Entities;
+using SchoolHubApi.Domain.Entities.Enums;
+using SchoolHubApi.Helpers;
+using SchoolHubApi.Models.UserDto;
 using SchoolHubApi.Repositories.Interface;
 
-namespace SchoolHubApi.Controllers
+namespace SchoolHubApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UsersController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+    private readonly IUserRepository _userRepository;
+    private readonly IPupilRepository _pupilRepository;
+    private readonly IParentRepository _parentRepository;
+    private readonly IConfiguration _configuration;
+
+    public UsersController(IUserRepository userRepository, IPupilRepository pupilRepository, IConfiguration configuration, IParentRepository parentRepository)
     {
-        private readonly IUserRepository userRepository;
+        _userRepository = userRepository;
+        _pupilRepository = pupilRepository;
+        _configuration = configuration;
+        _parentRepository = parentRepository;
+    }
 
-        public UsersController(IUserRepository userRepository)
+    [HttpPost("register/pupil")]
+    public async Task<ActionResult<AuthenticateResponse>> RegisterPupil([FromBody] PupilDto request)
+    {
+        if (_userRepository
+            .Find(x => x.Username == request.Username)
+            .Any())
+            return Conflict("User with this username already exists.");
+
+        if (_userRepository
+            .Find(x => x.Email == request.Email)
+            .Any())
+            return Conflict("User with this email already exists.");
+
+        HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+        var pupil = new Pupil()
         {
-            this.userRepository = userRepository;
-        }
-
-        [HttpGet]
-        public async Task<List<CreateUserRequestDto>> GetUser()
-        {
-            return AdaptUser(await userRepository.GetAsync());
-        }
-
-        private static List<CreateUserRequestDto> AdaptUser(List<User> usersFromDb)
-        {
-            List<CreateUserRequestDto> responseUsersList = new();
-
-            CreateUserRequestDto? users;
-
-            foreach (User user in usersFromDb)
+            UserData = new()
             {
-                users = new()
-                {
-                    Name = user.FirstName,
-                    LastName = user.LastName,
-                };
-                responseUsersList.Add(users);
-            }
-
-            return responseUsersList;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserRequestDto request)
-        {
-            var user = new User
-            {
-                FirstName = request.Name,
+                Username = request.Username,
+                FirstName = request.FirstName,
                 LastName = request.LastName,
-            };
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash,
+                Pesel = request.Pesel,
+                Role = Role.Pupil
+            }
+        };
 
-            await userRepository.CreateAsync(user);
+        _pupilRepository.Add(pupil);
+        await _pupilRepository.SaveChangesAsync();
+            
+        return Login(new AuthenticateRequest
+        {
+            Username = request.Username,
+            Password = request.Password
+        });
+    }
 
-            var response = new UserDto
+    [HttpPost("register/parent")]
+    public async Task<ActionResult<AuthenticateResponse>> RegisterParent(ParentDto request)
+    { 
+        if (_userRepository
+          .Find(x => x.Username == request.Username)
+          .Any())
+            return Conflict("User with this username already exists.");
+
+        if (_userRepository
+            .Find(x => x.Email == request.Email)
+            .Any())
+            return Conflict("User with this email already exists.");
+
+        HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+        var child = _pupilRepository
+            .Find(x => x.UserData.Username == request.ChildCode)
+            .FirstOrDefault();
+
+        if (child is null)
+            return BadRequest("Incorrect child code");
+        
+        var parent = new Parent()
+        {
+            UserData = new()
             {
-                Name = user.FirstName,
-                LastName = user.LastName,
-            };
+                Username = request.Username,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash,
+                Pesel = request.Pesel,
+                Role = Role.Parent
+            }
+        };
 
-            return Ok(response);
+        parent.Children.Add(child);
+        
+        _parentRepository.Add(parent);
+        await _parentRepository.SaveChangesAsync();
+            
+        return Login(new AuthenticateRequest
+        {
+            Username = request.Username,
+            Password = request.Password
+        });
+    }
+
+    [HttpPost("login")]
+    public ActionResult<AuthenticateResponse> Login(AuthenticateRequest request)
+    {
+        var userInDb = _userRepository
+            .Find(x => x.Username == request.Username)
+            .FirstOrDefault();
+
+        if (userInDb == null || 
+            !HashPasswordHelper.VerifyPasswordHash(request.Password, userInDb.PasswordHash, userInDb.PasswordSalt))
+        {
+            return BadRequest("Username or password is incorrect.");
         }
+
+        var token = _configuration.GenerateJwtToken(userInDb);
+
+        return new AuthenticateResponse(userInDb, token);
+    }
+    
+    [HttpGet("TestAuth"), Authorize]
+    public ActionResult Test0()
+    {
+        ClaimsPrincipal currentUser = this.User;
+        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+        return Ok(currentUserName);
+    }
+    
+    [HttpGet("TestTeacher"), Authorize(Roles = nameof(Role.Teacher))]
+    public ActionResult Test()
+    {
+        ClaimsPrincipal currentUser = this.User;
+        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+        return Ok(currentUserName);
+    }
+    
+    [HttpGet("TestAdmin"), Authorize(Roles = nameof(Role.Admin))]
+    public ActionResult Test1()
+    {
+        ClaimsPrincipal currentUser = this.User;
+        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+        return Ok(currentUserName);
+    }
+    
+    [HttpGet("TestParent"), Authorize(Roles = nameof(Role.Parent))]
+    public ActionResult Test2()
+    {
+        ClaimsPrincipal currentUser = this.User;
+        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+        return Ok(currentUserName);
+    }
+    
+    [HttpGet("TestPupil"), Authorize(Roles = nameof(Role.Pupil))]
+    public ActionResult Test3()
+    {
+        ClaimsPrincipal currentUser = this.User;
+        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
+        return Ok(currentUserName);
     }
 }

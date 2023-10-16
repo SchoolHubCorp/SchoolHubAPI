@@ -1,158 +1,82 @@
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\appsettings.Development.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\appsettings.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\SchoolHubApi.exe
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\SchoolHubApi.deps.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\SchoolHubApi.runtimeconfig.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\SchoolHubApi.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\SchoolHubApi.pdb
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Azure.Core.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Azure.Identity.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Humanizer.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.OpenApi.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Mono.TextTemplating.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.CodeDom.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Drawing.Common.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Memory.Data.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Runtime.Caching.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Security.Permissions.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\System.Windows.Extensions.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.csproj.AssemblyReference.cache
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.GeneratedMSBuildEditorConfig.editorconfig
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.AssemblyInfoInputs.cache
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.AssemblyInfo.cs
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.csproj.CoreCompileInputs.cache
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.MvcApplicationPartsAssemblyInfo.cs
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.MvcApplicationPartsAssemblyInfo.cache
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets\msbuild.SchoolHubApi.Microsoft.AspNetCore.StaticWebAssets.props
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets\msbuild.build.SchoolHubApi.props
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.SchoolHubApi.props
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.SchoolHubApi.props
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets.pack.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets.build.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\staticwebassets.development.json
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\scopedcss\bundle\SchoolHubApi.styles.css
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.csproj.CopyComplete
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\refint\SchoolHubApi.dll
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.pdb
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\SchoolHubApi.genruntimeconfig.cache
-Y:\.Net Study\SchoolHub\SchoolHubApi\obj\Debug\net7.0\ref\SchoolHubApi.dll
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.AssemblyReference.cache
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.GeneratedMSBuildEditorConfig.editorconfig
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.AssemblyInfoInputs.cache
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.AssemblyInfo.cs
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.CoreCompileInputs.cache
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.MvcApplicationPartsAssemblyInfo.cs
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.MvcApplicationPartsAssemblyInfo.cache
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.dll
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\refint\SchoolHubApi.dll
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.pdb
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\appsettings.Development.json
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\appsettings.json
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.exe
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.deps.json
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.runtimeconfig.json
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.pdb
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Azure.Core.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Azure.Identity.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Humanizer.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.OpenApi.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Mono.TextTemplating.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.CodeDom.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Drawing.Common.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Memory.Data.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Runtime.Caching.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Security.Permissions.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\System.Windows.Extensions.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.SchoolHubApi.Microsoft.AspNetCore.StaticWebAssets.props
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.build.SchoolHubApi.props
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.SchoolHubApi.props
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.SchoolHubApi.props
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets.pack.json
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets.build.json
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\staticwebassets.development.json
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\scopedcss\bundle\SchoolHubApi.styles.css
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.CopyComplete
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.genruntimeconfig.cache
-D:\Schoolhub\SchoolHubAPI\obj\Debug\net7.0\ref\SchoolHubApi.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\AutoMapper.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\FluentValidation.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\FluentValidation.AspNetCore.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\FluentValidation.DependencyInjectionExtensions.dll
-D:\Schoolhub\SchoolHubAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.AssemblyReference.cache
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.AssemblyInfoInputs.cache
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.AssemblyInfo.cs
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.CoreCompileInputs.cache
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.MvcApplicationPartsAssemblyInfo.cs
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.MvcApplicationPartsAssemblyInfo.cache
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\appsettings.Development.json
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\appsettings.json
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.exe
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.deps.json
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.runtimeconfig.json
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\SchoolHubApi.pdb
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\AutoMapper.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Azure.Core.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Azure.Identity.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Humanizer.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Identity.Client.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.OpenApi.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Mono.TextTemplating.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.CodeDom.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Drawing.Common.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Memory.Data.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Runtime.Caching.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Security.Permissions.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\System.Windows.Extensions.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.SchoolHubApi.Microsoft.AspNetCore.StaticWebAssets.props
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.build.SchoolHubApi.props
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.SchoolHubApi.props
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.SchoolHubApi.props
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets.pack.json
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets.build.json
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\staticwebassets.development.json
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\scopedcss\bundle\SchoolHubApi.styles.css
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.csproj.CopyComplete
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.dll
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\refint\SchoolHubApi.dll
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.pdb
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\SchoolHubApi.genruntimeconfig.cache
+C:\SomePJ\SchoolHubAPI\obj\Debug\net7.0\ref\SchoolHubApi.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Scrutor.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.dll
+C:\SomePJ\SchoolHubAPI\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

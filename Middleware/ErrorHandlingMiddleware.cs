@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using SchoolHubApi.Exceptions;
+﻿using SchoolHubApi.Exceptions;
 
-namespace RestaurantAPI.Middleware
+namespace SchoolHubApi.Middleware
 {
     public class ErrorHandlingMiddleware : IMiddleware
     {

@@ -1,31 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
 using SchoolHubApi.Data;
-using SchoolHubApi.Models.Domain;
+using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Repositories.Interface;
 
-namespace SchoolHubApi.Repositories.Implementation
+namespace SchoolHubApi.Repositories.Implementation;
+
+public class UserRepository : IUserRepository
 {
-    public class UserRepository : IUserRepository
+    private readonly ApplicationDbContext _context;
+
+    public UserRepository(ApplicationDbContext dbContext)
     {
-        private readonly ApplicationDbContext dbContext;
+        _context = dbContext;
+    }
 
-        public UserRepository(ApplicationDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
-        public async Task<User> CreateAsync(User user)
-        {
-
-            await dbContext.Users.AddAsync(user);
-            await dbContext.SaveChangesAsync();
-
-            return user;
-        }
-
-        public async Task<List<User>> GetAsync()
-        {
-            return await dbContext.Users.ToListAsync();
-        }
+    public IQueryable<UserData> Find(Expression<Func<UserData, bool>> expression)
+    {
+        return _context.Set<UserData>().Where(expression);
     }
 }

@@ -1,20 +1,91 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SchoolHubApi;
+using Microsoft.IdentityModel.Tokens;
 using SchoolHubApi.Data;
+using SchoolHubApi.Middleware;
 using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
+using SchoolHubApi.Domain.Entities;
+using Swashbuckle.AspNetCore.Filters;
 
-public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+// Add swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
 {
-    public static void Main(string[] args)
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
-        CreateHostBuilder(args).Build().Run();
-    }
+        Description = "bearer {token}",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-}
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
+// Add db context
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add repos
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPupilRepository, PupilRepository>();
+builder.Services.AddScoped<IParentRepository, ParentRepository>();
+
+// Cors
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true);
+        });
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(builder.Configuration.GetSection("Authentication:JwtKey").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+//services.AddScoped<IRestaurantService, RestaurantService>();
+//services.AddScoped<IDishService, DishService>();
+// services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<IPasswordHasher<UserData>, PasswordHasher<UserData>>();
+
+var app = builder.Build();
+
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
