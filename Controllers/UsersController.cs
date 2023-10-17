@@ -39,10 +39,15 @@ public class UsersController : ControllerBase
             .Any())
             return Conflict("User with this email already exists.");
 
+
+        var accessCode = AccessCodeGenerator.GenerateAccessCode((string code) => 
+            _pupilRepository.Find(x => x.AccessCode == code).Any());
+
         HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var pupil = new Pupil()
         {
+            AccessCode = accessCode,
             UserData = new()
             {
                 Username = request.Username,
@@ -59,7 +64,7 @@ public class UsersController : ControllerBase
 
         _pupilRepository.Add(pupil);
         await _pupilRepository.SaveChangesAsync();
-            
+
         return Login(new AuthenticateRequest
         {
             Username = request.Username,
@@ -69,7 +74,7 @@ public class UsersController : ControllerBase
 
     [HttpPost("register/parent")]
     public async Task<ActionResult<AuthenticateResponse>> RegisterParent(ParentDto request)
-    { 
+    {
         if (_userRepository
           .Find(x => x.Username == request.Username)
           .Any())
@@ -83,12 +88,12 @@ public class UsersController : ControllerBase
         HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var child = _pupilRepository
-            .Find(x => x.UserData.Username == request.ChildCode)
+            .Find(x => x.AccessCode == request.ChildCode)
             .FirstOrDefault();
 
         if (child is null)
             return BadRequest("Incorrect child code");
-        
+
         var parent = new Parent()
         {
             UserData = new()
@@ -106,10 +111,10 @@ public class UsersController : ControllerBase
         };
 
         parent.Children.Add(child);
-        
+
         _parentRepository.Add(parent);
         await _parentRepository.SaveChangesAsync();
-            
+
         return Login(new AuthenticateRequest
         {
             Username = request.Username,
@@ -124,7 +129,7 @@ public class UsersController : ControllerBase
             .Find(x => x.Username == request.Username)
             .FirstOrDefault();
 
-        if (userInDb == null || 
+        if (userInDb == null ||
             !HashPasswordHelper.VerifyPasswordHash(request.Password, userInDb.PasswordHash, userInDb.PasswordSalt))
         {
             return BadRequest("Username or password is incorrect.");
@@ -134,7 +139,7 @@ public class UsersController : ControllerBase
 
         return new AuthenticateResponse(userInDb, token);
     }
-    
+
     [HttpGet("TestAuth"), Authorize]
     public ActionResult Test0()
     {
@@ -142,7 +147,7 @@ public class UsersController : ControllerBase
         var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
         return Ok(currentUserName);
     }
-    
+
     [HttpGet("TestTeacher"), Authorize(Roles = nameof(Role.Teacher))]
     public ActionResult Test()
     {
@@ -150,7 +155,7 @@ public class UsersController : ControllerBase
         var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
         return Ok(currentUserName);
     }
-    
+
     [HttpGet("TestAdmin"), Authorize(Roles = nameof(Role.Admin))]
     public ActionResult Test1()
     {
@@ -158,7 +163,7 @@ public class UsersController : ControllerBase
         var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
         return Ok(currentUserName);
     }
-    
+
     [HttpGet("TestParent"), Authorize(Roles = nameof(Role.Parent))]
     public ActionResult Test2()
     {
@@ -166,7 +171,7 @@ public class UsersController : ControllerBase
         var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
         return Ok(currentUserName);
     }
-    
+
     [HttpGet("TestPupil"), Authorize(Roles = nameof(Role.Pupil))]
     public ActionResult Test3()
     {

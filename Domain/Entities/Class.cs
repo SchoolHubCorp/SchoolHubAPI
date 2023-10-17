@@ -1,6 +1,6 @@
 ﻿namespace SchoolHubApi.Domain.Entities;
 
-public class Class : Entity
+public class ClassRoom : Entity
 {
     
 }

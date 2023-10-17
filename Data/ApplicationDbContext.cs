@@ -28,5 +28,9 @@ public class ApplicationDbContext : DbContext
                 "ParentPupil",
                 l => l.HasOne(typeof(Pupil)).WithMany().OnDelete(DeleteBehavior.NoAction),
                 r => r.HasOne(typeof(Parent)).WithMany().OnDelete(DeleteBehavior.NoAction));
+
+        modelBuilder.Entity<Pupil>()
+            .HasIndex(x => x.AccessCode)
+            .IsUnique();
     }
 }
