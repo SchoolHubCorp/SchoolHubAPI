@@ -1,11 +1,10 @@
 ﻿namespace SchoolHubApi.Models.UserDto;
 
 public record PupilDto(
-    string Username, 
+    string Email, 
     string FirstName,
     string LastName, 
-    string Email, 
     string PhoneNumber, 
     string Password, 
     string Pesel,
-    string ClassCode) : UserDto(Username, FirstName, LastName, Email, PhoneNumber, Password, Pesel);
+    string ClassCode) : UserDto(Email, FirstName, LastName, PhoneNumber, Password, Pesel);

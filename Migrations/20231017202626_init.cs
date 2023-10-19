@@ -14,10 +14,9 @@ namespace SchoolHubApi.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
@@ -26,7 +25,7 @@ namespace SchoolHubApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Username);
+                    table.PrimaryKey("PK_Users", x => x.Email);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,16 +34,16 @@ namespace SchoolHubApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserDataUsername = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserDataEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Parents_Users_UserDataUsername",
-                        column: x => x.UserDataUsername,
+                        name: "FK_Parents_Users_UserDataEmail",
+                        column: x => x.UserDataEmail,
                         principalTable: "Users",
-                        principalColumn: "Username",
+                        principalColumn: "Email",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -54,16 +53,17 @@ namespace SchoolHubApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserDataUsername = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    AccessCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserDataEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pupils", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pupils_Users_UserDataUsername",
-                        column: x => x.UserDataUsername,
+                        name: "FK_Pupils_Users_UserDataEmail",
+                        column: x => x.UserDataEmail,
                         principalTable: "Users",
-                        principalColumn: "Username",
+                        principalColumn: "Email",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -73,16 +73,16 @@ namespace SchoolHubApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserDataUsername = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserDataEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teachers_Users_UserDataUsername",
-                        column: x => x.UserDataUsername,
+                        name: "FK_Teachers_Users_UserDataEmail",
+                        column: x => x.UserDataEmail,
                         principalTable: "Users",
-                        principalColumn: "Username",
+                        principalColumn: "Email",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -114,19 +114,25 @@ namespace SchoolHubApi.Migrations
                 column: "ParentsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parents_UserDataUsername",
+                name: "IX_Parents_UserDataEmail",
                 table: "Parents",
-                column: "UserDataUsername");
+                column: "UserDataEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pupils_UserDataUsername",
+                name: "IX_Pupils_AccessCode",
                 table: "Pupils",
-                column: "UserDataUsername");
+                column: "AccessCode",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teachers_UserDataUsername",
+                name: "IX_Pupils_UserDataEmail",
+                table: "Pupils",
+                column: "UserDataEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teachers_UserDataEmail",
                 table: "Teachers",
-                column: "UserDataUsername");
+                column: "UserDataEmail");
         }
 
         /// <inheritdoc />

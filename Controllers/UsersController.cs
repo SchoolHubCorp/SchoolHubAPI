@@ -30,11 +30,6 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<AuthenticateResponse>> RegisterPupil([FromBody] PupilDto request)
     {
         if (_userRepository
-            .Find(x => x.Username == request.Username)
-            .Any())
-            return Conflict("User with this username already exists.");
-
-        if (_userRepository
             .Find(x => x.Email == request.Email)
             .Any())
             return Conflict("User with this email already exists.");
@@ -50,7 +45,6 @@ public class UsersController : ControllerBase
             AccessCode = accessCode,
             UserData = new()
             {
-                Username = request.Username,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -67,7 +61,7 @@ public class UsersController : ControllerBase
 
         return Login(new AuthenticateRequest
         {
-            Username = request.Username,
+            Email = request.Email,
             Password = request.Password
         });
     }
@@ -75,11 +69,6 @@ public class UsersController : ControllerBase
     [HttpPost("register/parent")]
     public async Task<ActionResult<AuthenticateResponse>> RegisterParent(ParentDto request)
     {
-        if (_userRepository
-          .Find(x => x.Username == request.Username)
-          .Any())
-            return Conflict("User with this username already exists.");
-
         if (_userRepository
             .Find(x => x.Email == request.Email)
             .Any())
@@ -98,10 +87,9 @@ public class UsersController : ControllerBase
         {
             UserData = new()
             {
-                Username = request.Username,
+                Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
@@ -117,7 +105,7 @@ public class UsersController : ControllerBase
 
         return Login(new AuthenticateRequest
         {
-            Username = request.Username,
+            Email = request.Email,
             Password = request.Password
         });
     }
@@ -126,13 +114,13 @@ public class UsersController : ControllerBase
     public ActionResult<AuthenticateResponse> Login(AuthenticateRequest request)
     {
         var userInDb = _userRepository
-            .Find(x => x.Username == request.Username)
+            .Find(x => x.Email == request.Email)
             .FirstOrDefault();
 
         if (userInDb == null ||
             !HashPasswordHelper.VerifyPasswordHash(request.Password, userInDb.PasswordHash, userInDb.PasswordSalt))
         {
-            return BadRequest("Username or password is incorrect.");
+            return BadRequest("Email or password is incorrect.");
         }
 
         var token = _configuration.GenerateJwtToken(userInDb);
@@ -144,39 +132,34 @@ public class UsersController : ControllerBase
     public ActionResult Test0()
     {
         ClaimsPrincipal currentUser = this.User;
-        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
-        return Ok(currentUserName);
+        return Ok(" ");
     }
 
     [HttpGet("TestTeacher"), Authorize(Roles = nameof(Role.Teacher))]
     public ActionResult Test()
     {
         ClaimsPrincipal currentUser = this.User;
-        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
-        return Ok(currentUserName);
+        return Ok("1");
     }
 
     [HttpGet("TestAdmin"), Authorize(Roles = nameof(Role.Admin))]
     public ActionResult Test1()
     {
         ClaimsPrincipal currentUser = this.User;
-        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
-        return Ok(currentUserName);
+        return Ok("1");
     }
 
     [HttpGet("TestParent"), Authorize(Roles = nameof(Role.Parent))]
     public ActionResult Test2()
     {
         ClaimsPrincipal currentUser = this.User;
-        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
-        return Ok(currentUserName);
+        return Ok("1");
     }
 
     [HttpGet("TestPupil"), Authorize(Roles = nameof(Role.Pupil))]
     public ActionResult Test3()
     {
         ClaimsPrincipal currentUser = this.User;
-        var currentUserName = currentUser.FindFirst(ClaimTypes.Name).Value;
-        return Ok(currentUserName);
+        return Ok("1");
     }
 }

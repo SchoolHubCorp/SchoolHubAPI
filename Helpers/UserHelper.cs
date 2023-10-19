@@ -12,7 +12,7 @@ public static class UserHelper
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, userData.Username),
+            new Claim(ClaimTypes.Name, userData.Email),
             new Claim(ClaimTypes.Role,  userData.Role.ToString())
         };
 

@@ -44,13 +44,13 @@ namespace SchoolHubApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("UserDataUsername")
+                    b.Property<string>("UserDataEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserDataUsername");
+                    b.HasIndex("UserDataEmail");
 
                     b.ToTable("Parents");
                 });
@@ -67,7 +67,7 @@ namespace SchoolHubApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserDataUsername")
+                    b.Property<string>("UserDataEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -76,7 +76,7 @@ namespace SchoolHubApi.Migrations
                     b.HasIndex("AccessCode")
                         .IsUnique();
 
-                    b.HasIndex("UserDataUsername");
+                    b.HasIndex("UserDataEmail");
 
                     b.ToTable("Pupils");
                 });
@@ -89,25 +89,21 @@ namespace SchoolHubApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("UserDataUsername")
+                    b.Property<string>("UserDataEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserDataUsername");
+                    b.HasIndex("UserDataEmail");
 
                     b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.UserData", b =>
                 {
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -137,7 +133,7 @@ namespace SchoolHubApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Username");
+                    b.HasKey("Email");
 
                     b.ToTable("Users");
                 });
@@ -161,7 +157,7 @@ namespace SchoolHubApi.Migrations
                 {
                     b.HasOne("SchoolHubApi.Domain.Entities.UserData", "UserData")
                         .WithMany()
-                        .HasForeignKey("UserDataUsername")
+                        .HasForeignKey("UserDataEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -172,7 +168,7 @@ namespace SchoolHubApi.Migrations
                 {
                     b.HasOne("SchoolHubApi.Domain.Entities.UserData", "UserData")
                         .WithMany()
-                        .HasForeignKey("UserDataUsername")
+                        .HasForeignKey("UserDataEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -183,7 +179,7 @@ namespace SchoolHubApi.Migrations
                 {
                     b.HasOne("SchoolHubApi.Domain.Entities.UserData", "UserData")
                         .WithMany()
-                        .HasForeignKey("UserDataUsername")
+                        .HasForeignKey("UserDataEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
