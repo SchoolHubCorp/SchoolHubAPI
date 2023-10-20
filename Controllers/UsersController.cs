@@ -1,11 +1,16 @@
-﻿using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Domain.Entities.Enums;
 using SchoolHubApi.Helpers;
+using SchoolHubApi.Models.EmailDto;
 using SchoolHubApi.Models.UserDto;
 using SchoolHubApi.Repositories.Interface;
+using SchoolHubApi.Services;
 
 namespace SchoolHubApi.Controllers;
 
@@ -17,13 +22,15 @@ public class UsersController : ControllerBase
     private readonly IPupilRepository _pupilRepository;
     private readonly IParentRepository _parentRepository;
     private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
 
-    public UsersController(IUserRepository userRepository, IPupilRepository pupilRepository, IConfiguration configuration, IParentRepository parentRepository)
+    public UsersController(IUserRepository userRepository, IPupilRepository pupilRepository, IConfiguration configuration, IParentRepository parentRepository, IEmailService emailService)
     {
         _userRepository = userRepository;
         _pupilRepository = pupilRepository;
         _configuration = configuration;
         _parentRepository = parentRepository;
+        _emailService = emailService;
     }
 
     [HttpPost("register/pupil")]
@@ -128,6 +135,7 @@ public class UsersController : ControllerBase
         return new AuthenticateResponse(userInDb, token);
     }
 
+
     [HttpGet("TestAuth"), Authorize]
     public ActionResult Test0()
     {
@@ -156,10 +164,69 @@ public class UsersController : ControllerBase
         return Ok("1");
     }
 
-    [HttpGet("TestPupil"), Authorize(Roles = nameof(Role.Pupil))]
-    public ActionResult Test3()
+    [HttpPost("ForgotPassword")]
+    public async Task<ActionResult> ForgotPassword([FromBody,EmailAddress] string Email)
     {
-        ClaimsPrincipal currentUser = this.User;
-        return Ok("1");
+        if (!ModelState.IsValid) 
+        {
+            return BadRequest("Wrong email address");
+        }
+
+        var userInDb = _userRepository.FindWithTracking(x => x.Email == Email).FirstOrDefault();
+        if (userInDb is null) 
+        {
+            return BadRequest("Wrong email, user doesn't exist");
+        }
+
+        var userAccessCode = new ResetPasswordCode();
+
+        var request = new EmailRequest()
+        {
+            Title = "ScoolHub Reset password",
+            Body = $"Your reset code:{userAccessCode.ResetCode}" ,
+            ToEmail = Email
+        };
+
+        userInDb.ResetPasswordCode = userAccessCode;
+        await _userRepository.SaveChangesAsync();
+
+        await _emailService.SendEmailAsync(request);
+        return Ok("User access code was sent on written email");
+    }
+
+    [HttpPost("ResetPassword")]
+    public async Task<ActionResult> ForgotPassword([FromBody] ResetPasswordDto request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest("Wrong email address");
+        }
+
+        var userInDb = _userRepository
+            .FindWithTracking(x => x.Email == request.Email)
+            .Include(x => x.ResetPasswordCode)
+            .FirstOrDefault();
+
+        if (userInDb is null)
+        {
+            return BadRequest("Wrong email");
+        }
+        if (userInDb.ResetPasswordCode?.ResetCode != request.AccessCode)
+        {
+            return BadRequest("Incorrect Reset Code");
+        }
+        if (userInDb.ResetPasswordCode.ValidTo <= DateTime.Now)
+        {
+            userInDb.ResetPasswordCode = null;
+            await _userRepository.SaveChangesAsync();
+            return BadRequest("Expired time");
+        }
+
+        HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        userInDb.PasswordHash = passwordHash;
+        userInDb.PasswordSalt = passwordSalt;
+        userInDb.ResetPasswordCode = null;
+        await _userRepository.SaveChangesAsync();
+        return Ok("Your password has been reseted");
     }
 }

@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using SchoolHubApi.Domain.Entities;
 using Swashbuckle.AspNetCore.Filters;
+using MailKit;
+using SchoolHubApi.Models.EmailDto;
+using SchoolHubApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,11 +69,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//services.AddScoped<IRestaurantService, RestaurantService>();
-//services.AddScoped<IDishService, DishService>();
-// services.AddScoped<IAccountService, AccountService>();
+
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IPasswordHasher<UserData>, PasswordHasher<UserData>>();
+
+// Email
+builder.Services.AddTransient<IEmailService, EmailService>();
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 var app = builder.Build();
 

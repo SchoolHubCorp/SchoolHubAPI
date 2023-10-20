@@ -17,4 +17,5 @@ public class UserData
     public string Pesel { get; set; }
 
     public Role Role { get; set; }
+    public ResetPasswordCode? ResetPasswordCode { get; set; }
 }
