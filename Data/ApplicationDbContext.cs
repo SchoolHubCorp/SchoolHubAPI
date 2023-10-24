@@ -23,8 +23,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Parent> Parents { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<ResetPasswordCode> ResetPasswordCodes { get; set; }
+    public DbSet<Classroom> Classrooms { get; set; }
 
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserData>()
@@ -46,6 +47,10 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Pupil>()
             .HasIndex(x => x.AccessCode)
+            .IsUnique();
+
+        modelBuilder.Entity<Classroom>()
+            .HasIndex(x => x.ClassAccessCode)
             .IsUnique();
 
         HashPasswordHelper.CreatePasswordHash("admin", out var passwordHash, out var passwordSalt);

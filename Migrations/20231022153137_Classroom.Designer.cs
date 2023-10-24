@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolHubApi.Data;
 
@@ -11,9 +12,11 @@ using SchoolHubApi.Data;
 namespace SchoolHubApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022153137_Classroom")]
+    partial class Classroom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,10 +57,8 @@ namespace SchoolHubApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Plan")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("PlanContentType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -206,8 +207,8 @@ namespace SchoolHubApi.Migrations
                             Email = "schoolhubpl@gmail.com",
                             FirstName = "Admin",
                             LastName = "",
-                            PasswordHash = new byte[] { 67, 58, 59, 74, 111, 168, 106, 72, 90, 93, 165, 77, 156, 118, 146, 133, 212, 110, 21, 201, 216, 155, 71, 218, 156, 24, 245, 211, 159, 105, 50, 126, 15, 250, 32, 229, 10, 166, 84, 94, 86, 20, 138, 95, 120, 62, 149, 79, 243, 191, 6, 6, 94, 95, 81, 145, 32, 184, 72, 69, 56, 41, 96, 212 },
-                            PasswordSalt = new byte[] { 143, 231, 28, 232, 17, 148, 76, 250, 96, 174, 189, 1, 143, 221, 198, 223, 231, 199, 21, 116, 122, 50, 121, 104, 98, 67, 148, 114, 226, 134, 238, 96, 182, 125, 49, 31, 230, 198, 86, 233, 157, 55, 158, 105, 205, 104, 47, 157, 96, 175, 108, 149, 85, 208, 118, 129, 87, 176, 142, 38, 182, 237, 120, 5, 111, 120, 126, 89, 208, 225, 6, 233, 150, 245, 95, 72, 137, 36, 142, 60, 7, 65, 246, 248, 212, 143, 235, 120, 135, 117, 157, 70, 201, 28, 220, 89, 254, 80, 140, 101, 59, 178, 111, 128, 44, 83, 46, 59, 69, 182, 34, 184, 69, 156, 160, 32, 108, 186, 102, 78, 242, 143, 151, 239, 78, 149, 170, 184 },
+                            PasswordHash = new byte[] { 92, 45, 7, 144, 56, 125, 137, 47, 14, 93, 9, 117, 53, 177, 180, 60, 193, 48, 204, 232, 2, 136, 84, 77, 218, 151, 16, 238, 192, 247, 96, 20, 139, 225, 59, 108, 196, 162, 214, 201, 235, 152, 251, 110, 249, 156, 146, 132, 107, 64, 83, 95, 229, 226, 42, 128, 110, 15, 70, 93, 84, 153, 173, 86 },
+                            PasswordSalt = new byte[] { 70, 189, 82, 28, 225, 164, 199, 181, 246, 73, 240, 97, 130, 158, 142, 87, 135, 185, 120, 142, 7, 238, 168, 229, 233, 38, 66, 117, 23, 0, 68, 192, 182, 251, 85, 23, 115, 209, 204, 42, 212, 163, 230, 185, 208, 23, 237, 164, 123, 59, 252, 251, 105, 202, 175, 89, 41, 179, 17, 236, 128, 47, 214, 209, 109, 172, 247, 252, 72, 249, 202, 76, 149, 75, 15, 144, 233, 9, 91, 65, 160, 96, 200, 246, 21, 12, 127, 181, 97, 83, 203, 162, 250, 185, 31, 249, 131, 151, 217, 10, 72, 231, 172, 42, 38, 238, 77, 183, 79, 121, 67, 9, 26, 254, 242, 92, 98, 201, 52, 59, 56, 188, 74, 103, 243, 71, 138, 51 },
                             Pesel = "",
                             PhoneNumber = "",
                             Role = "Admin"

@@ -6,11 +6,11 @@ using SchoolHubApi.Repositories.Interface;
 
 namespace SchoolHubApi.Repositories.Implementation;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : Entity
+public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
 {
     private readonly ApplicationDbContext _context;
 
-    public BaseRepository(ApplicationDbContext context)
+    protected BaseRepository(ApplicationDbContext context)
     {
         _context = context;
     }
