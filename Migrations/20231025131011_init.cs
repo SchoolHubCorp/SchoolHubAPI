@@ -12,6 +12,22 @@ namespace SchoolHubApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Classrooms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClassName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Plan = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PlanContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClassAccessCode = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classrooms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -55,11 +71,18 @@ namespace SchoolHubApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccessCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClassroomId = table.Column<int>(type: "int", nullable: false),
                     UserDataEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pupils", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pupils_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Pupils_Users_UserDataEmail",
                         column: x => x.UserDataEmail,
@@ -133,7 +156,13 @@ namespace SchoolHubApi.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Email", "FirstName", "LastName", "PasswordHash", "PasswordSalt", "Pesel", "PhoneNumber", "Role" },
-                values: new object[] { "schoolhubpl@gmail.com", "Admin", "", new byte[] { 201, 152, 95, 29, 178, 101, 170, 219, 202, 203, 107, 94, 90, 12, 5, 30, 132, 102, 199, 151, 235, 36, 134, 250, 20, 196, 46, 114, 80, 11, 3, 237, 96, 104, 234, 106, 204, 72, 30, 126, 217, 44, 6, 238, 60, 188, 46, 211, 148, 177, 20, 193, 90, 239, 58, 73, 212, 241, 183, 254, 243, 121, 122, 254 }, new byte[] { 97, 101, 182, 101, 161, 142, 231, 28, 215, 166, 92, 202, 216, 190, 70, 94, 134, 144, 38, 248, 154, 183, 13, 228, 38, 82, 24, 78, 74, 168, 254, 239, 70, 79, 74, 230, 99, 18, 165, 205, 120, 62, 65, 151, 105, 167, 207, 250, 36, 56, 134, 68, 211, 36, 165, 141, 125, 148, 116, 206, 28, 120, 181, 73, 106, 20, 137, 62, 243, 90, 13, 35, 48, 61, 75, 205, 254, 87, 38, 206, 30, 5, 76, 173, 76, 70, 31, 204, 15, 8, 84, 111, 165, 143, 35, 88, 7, 34, 146, 123, 242, 39, 195, 180, 202, 197, 2, 22, 89, 46, 130, 112, 26, 251, 53, 172, 181, 137, 93, 176, 168, 114, 62, 115, 107, 226, 94, 154 }, "", "", "Admin" });
+                values: new object[] { "schoolhubpl@gmail.com", "Admin", "", new byte[] { 50, 122, 141, 108, 7, 141, 162, 122, 140, 212, 111, 39, 41, 165, 16, 187, 40, 196, 124, 120, 69, 181, 159, 88, 226, 134, 23, 146, 195, 71, 225, 162, 230, 69, 159, 184, 119, 210, 243, 112, 129, 21, 139, 96, 205, 120, 174, 159, 104, 204, 253, 173, 51, 52, 157, 64, 173, 113, 86, 9, 222, 121, 215, 128 }, new byte[] { 4, 25, 201, 126, 163, 215, 123, 89, 252, 25, 138, 245, 107, 70, 196, 129, 214, 108, 176, 35, 60, 132, 250, 24, 111, 145, 230, 73, 115, 203, 27, 197, 51, 253, 60, 59, 46, 102, 96, 181, 214, 245, 53, 113, 16, 113, 56, 2, 26, 220, 56, 9, 147, 96, 49, 121, 98, 82, 117, 34, 55, 184, 143, 51, 187, 195, 181, 57, 235, 71, 185, 194, 129, 181, 96, 213, 69, 6, 96, 242, 135, 17, 197, 172, 203, 60, 111, 253, 244, 183, 86, 249, 202, 30, 159, 191, 29, 162, 19, 112, 59, 177, 53, 109, 104, 54, 203, 54, 123, 191, 145, 34, 104, 8, 179, 132, 34, 73, 37, 235, 66, 2, 33, 222, 151, 121, 55, 23 }, "", "", "Admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classrooms_ClassAccessCode",
+                table: "Classrooms",
+                column: "ClassAccessCode",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ParentPupil_ParentsId",
@@ -150,6 +179,11 @@ namespace SchoolHubApi.Migrations
                 table: "Pupils",
                 column: "AccessCode",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pupils_ClassroomId",
+                table: "Pupils",
+                column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pupils_UserDataEmail",
@@ -185,6 +219,9 @@ namespace SchoolHubApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pupils");
+
+            migrationBuilder.DropTable(
+                name: "Classrooms");
 
             migrationBuilder.DropTable(
                 name: "Users");

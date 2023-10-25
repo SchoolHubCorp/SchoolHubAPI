@@ -23,14 +23,16 @@ public class UsersController : ControllerBase
     private readonly IParentRepository _parentRepository;
     private readonly IConfiguration _configuration;
     private readonly IEmailService _emailService;
+    private readonly IClassRepository _classRepository;
 
-    public UsersController(IUserRepository userRepository, IPupilRepository pupilRepository, IConfiguration configuration, IParentRepository parentRepository, IEmailService emailService)
+    public UsersController(IUserRepository userRepository, IPupilRepository pupilRepository, IConfiguration configuration, IParentRepository parentRepository, IEmailService emailService, IClassRepository classRepository)
     {
         _userRepository = userRepository;
         _pupilRepository = pupilRepository;
         _configuration = configuration;
         _parentRepository = parentRepository;
         _emailService = emailService;
+        _classRepository = classRepository;
     }
 
     [HttpPost("register/pupil")]
@@ -47,8 +49,16 @@ public class UsersController : ControllerBase
 
         HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
+        var classroom = _classRepository
+            .Find(x => x.ClassAccessCode == request.ClassCode)
+            .FirstOrDefault();
+
+        if (classroom is null)
+            return BadRequest("Incorrect ClassCode");
+
         var pupil = new Pupil()
         {
+            ClassroomId = classroom.Id,
             AccessCode = accessCode,
             UserData = new()
             {
@@ -59,7 +69,7 @@ public class UsersController : ControllerBase
                 PasswordSalt = passwordSalt,
                 PasswordHash = passwordHash,
                 Pesel = request.Pesel,
-                Role = Role.Pupil
+                Role = Role.Pupil,
             }
         };
 
