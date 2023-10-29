@@ -28,7 +28,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
     
     public IQueryable<T> Find(Expression<Func<T, bool>> expression)
     {
-        return _context.Set<T>().Where(expression);
+        return _context.Set<T>().Where(expression).AsNoTracking();
     }
     
     public IQueryable<T> FindWithTracking(Expression<Func<T, bool>> expression)

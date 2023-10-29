@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SchoolHubApi.Controllers.Attributes;
 using SchoolHubApi.Data;
 using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Domain.Entities.Enums;
@@ -21,7 +22,7 @@ namespace SchoolHubApi.Controllers
             _classRepository = classRepository;
         }
 
-        [HttpGet, Authorize(Roles = nameof(Role.Admin))]
+        [HttpGet, Auth(Role.Admin)]
         public async Task<ActionResult<List<ClassroomModel>>> GetAllClassrooms()
         {
             return await _classRepository
@@ -31,7 +32,7 @@ namespace SchoolHubApi.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("/{classroomId:int}/image")]
+        [HttpGet("{classroomId:int}/plan"), Authorize]
         public async Task<ActionResult> GetClassImage(int classroomId)
         {
             var classroom = await _classRepository
@@ -44,7 +45,7 @@ namespace SchoolHubApi.Controllers
             return File(classroom.Plan, classroom.PlanContentType);
         }
 
-        [HttpPost("/{classroomId:int}"), Authorize(Roles = nameof(Role.Admin))]
+        [HttpPost("{classroomId:int}/plan"), Auth(Role.Admin)]
         public async Task<ActionResult> UploadPlan(int classroomId, IFormFile file)
         {
             var classroom = _classRepository
