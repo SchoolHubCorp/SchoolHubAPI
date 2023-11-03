@@ -18,4 +18,8 @@ public class UserData
 
     public Role Role { get; set; }
     public ResetPasswordCode? ResetPasswordCode { get; set; }
+
+    public Pupil? Pupil { get; set; }
+    public Parent? Parent { get; set; }
+    public Teacher? Teacher { get; set; }
 }

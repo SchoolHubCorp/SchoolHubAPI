@@ -10,11 +10,11 @@ namespace SchoolHubApi.Controllers.Attributes
         public AuthAttribute(params Role[] roles)
         {
             var a = String.Join(",", roles.Select(role => role.ToString()));
-            Roles = String.Join(",", nameof(Role.Admin), a);
+            Roles = roles.Contains(Role.Admin)? a: String.Join(",", nameof(Role.Admin), a);
         }
-
         public AuthAttribute()
         {
+
         }
     }
 }

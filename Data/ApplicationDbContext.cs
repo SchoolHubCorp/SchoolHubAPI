@@ -49,6 +49,24 @@ public class ApplicationDbContext : DbContext
             .HasIndex(x => x.AccessCode)
             .IsUnique();
 
+        modelBuilder.Entity<Pupil>()
+            .HasOne(p => p.UserData)
+            .WithOne(p => p.Pupil)
+            .HasForeignKey<Pupil>(x => x.UserDataEmail)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Parent>()
+            .HasOne(p => p.UserData)
+            .WithOne(p => p.Parent)
+            .HasForeignKey<Parent>(x => x.UserDataEmail)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Teacher>()
+            .HasOne(p => p.UserData)
+            .WithOne(p => p.Teacher)
+            .HasForeignKey<Teacher>(x => x.UserDataEmail)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<Classroom>()
             .HasIndex(x => x.ClassAccessCode)
             .IsUnique();

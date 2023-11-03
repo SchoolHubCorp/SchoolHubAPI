@@ -2,6 +2,7 @@
 {
     public record ClassroomModel(
         int Id,
-        string ClassName
+        string ClassName,
+        string ClassAccessCode
         );
 }

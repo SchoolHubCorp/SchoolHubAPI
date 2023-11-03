@@ -7,6 +7,8 @@ using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Domain.Entities.Enums;
 using SchoolHubApi.Helpers;
 using SchoolHubApi.Models.Classroom;
+using SchoolHubApi.Models.Pupil;
+using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
 
 namespace SchoolHubApi.Controllers
@@ -28,7 +30,7 @@ namespace SchoolHubApi.Controllers
             return await _classRepository
                 .GetAll()
                 .OrderBy(x => x.ClassName)
-                .Select(x => new ClassroomModel(x.Id, x.ClassName))
+                .Select(x => new ClassroomModel(x.Id, x.ClassName, x.ClassAccessCode))
                 .ToListAsync();
         }
 
@@ -82,7 +84,67 @@ namespace SchoolHubApi.Controllers
             };
             _classRepository.Add(classroom);
             await _classRepository.SaveChangesAsync();
-            return new ClassroomModel(classroom.Id, classroom.ClassName);
+            return new ClassroomModel(classroom.Id, classroom.ClassName, classroom.ClassAccessCode);
+        }
+
+        [HttpPut("{classroomId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult> UpdateClassName(int classroomId, [FromBody]ClassroomDto request)
+        {
+            var classroom = await _classRepository
+                .FindWithTracking(x => x.Id == classroomId)
+                .FirstOrDefaultAsync();
+
+            if (classroomId == null)
+                return NotFound("Classroom not found");
+
+            classroom.ClassName = request.ClassName;
+
+            await _classRepository.SaveChangesAsync();
+
+            return Ok(classroom);
+        }
+
+        [HttpGet("{classroomId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult<ClassroomDetailModel>> GetClassroomDetails(int classroomId)
+        {
+            var classroom = await _classRepository
+                .Find(x => x.Id == classroomId)
+                .Include(x => x.Pupils)
+                .Select(x => new ClassroomDetailModel(
+                    x.Id,
+                    x.ClassName,
+                    x.ClassAccessCode,
+                    x.Pupils.Select(pupil => new PupilModel(
+                        pupil.Id,
+                        pupil.UserData.Email,
+                        pupil.UserData.FirstName,
+                        pupil.UserData.LastName)).ToList()))
+                .FirstOrDefaultAsync();
+
+            if (classroom == null)
+                return NotFound("Pupil not found");
+
+            return Ok(classroom);
+        }
+        [HttpDelete("{classroomId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult<ClassroomDetailModel>> DeleteClassroom(int classroomId)
+        {
+            var classroom = await _classRepository
+                .FindWithTracking(x => x.Id == classroomId)
+                .Include(x => x.Pupils)
+                .FirstOrDefaultAsync();
+
+            if (classroom == null)
+                return NotFound("Pupil not found");
+
+            if (classroom.Pupils.Count > 0)
+                return BadRequest("Can't delete class with pupils");
+
+            _classRepository.Remove(classroom);
+
+            await _classRepository.SaveChangesAsync();
+
+            return Ok(classroom);
         }
     }
 }
