@@ -78,10 +78,14 @@ namespace SchoolHubApi.Controllers
         [HttpPost, Authorize(Roles = nameof(Role.Admin))]
         public async Task<ActionResult<ClassroomModel>> CreateClassroom([FromBody] ClassroomDto request)
         {
+            if (_classRepository.Find(x => x.ClassName == request.ClassName).Any())
+                return BadRequest("Class name already exists");
+            
             var classroom = new Classroom(request.ClassName)
             {
                 ClassAccessCode = AccessCodeGenerator.GenerateAccessCode(code => _classRepository.Find(x => x.ClassAccessCode == code).Any())
             };
+
             _classRepository.Add(classroom);
             await _classRepository.SaveChangesAsync();
             return new ClassroomModel(classroom.Id, classroom.ClassName, classroom.ClassAccessCode);
@@ -96,6 +100,9 @@ namespace SchoolHubApi.Controllers
 
             if (classroomId == null)
                 return NotFound("Classroom not found");
+
+            if (_classRepository.Find(x => x.ClassName == request.ClassName).Any())
+                return BadRequest("Class name already exists");
 
             classroom.ClassName = request.ClassName;
 
