@@ -23,7 +23,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Parent> Parents { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<ResetPasswordCode> ResetPasswordCodes { get; set; }
-    public DbSet<Classroom> Classrooms { get; set; }
+    public DbSet<Classroom> Classrooms { get; set; }    
+    public DbSet<Course> Courses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,7 +36,7 @@ public class ApplicationDbContext : DbContext
             .HasOne(x => x.ResetPasswordCode)
             .WithOne()
             .HasForeignKey<ResetPasswordCode>(x => x.Email);
-        
+
         modelBuilder.Entity<Parent>()
             .HasMany(p => p.Children)
             .WithMany(c => c.Parents)
@@ -44,28 +45,10 @@ public class ApplicationDbContext : DbContext
                 l => l.HasOne(typeof(Pupil)).WithMany().OnDelete(DeleteBehavior.NoAction),
                 r => r.HasOne(typeof(Parent)).WithMany().OnDelete(DeleteBehavior.NoAction));
 
+
         modelBuilder.Entity<Pupil>()
             .HasIndex(x => x.AccessCode)
             .IsUnique();
-
-        modelBuilder.Entity<Pupil>()
-            .HasOne(p => p.UserData)
-            .WithOne(p => p.Pupil)
-            .HasForeignKey<Pupil>(x => x.UserDataEmail)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<Parent>()
-            .HasOne(p => p.UserData)
-            .WithOne(p => p.Parent)
-            .HasForeignKey<Parent>(x => x.UserDataEmail)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<Teacher>()
-            .HasOne(p => p.UserData)
-            .WithOne(p => p.Teacher)
-            .HasForeignKey<Teacher>(x => x.UserDataEmail)
-            .OnDelete(DeleteBehavior.Cascade);
-
         modelBuilder.Entity<Classroom>()
             .HasIndex(x => x.ClassAccessCode)
             .IsUnique();

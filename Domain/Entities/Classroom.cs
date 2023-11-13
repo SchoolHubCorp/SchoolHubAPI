@@ -9,6 +9,8 @@ public class Classroom : Entity
     public string? PlanContentType { get; set; }
     public string ClassAccessCode { get; set; }
     public ICollection<Pupil> Pupils { get; set; }
+    public ICollection<Course> Courses { get; set; }
+
     private Classroom()
     {
         

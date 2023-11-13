@@ -82,7 +82,6 @@ public class UsersController : ControllerBase
             Password = request.Password
         });
     }
-
     [HttpPost("register/parent")]
     public async Task<ActionResult<AuthenticateResponse>> RegisterParent(ParentDto request)
     {

@@ -29,4 +29,8 @@ public class UserRepository : IUserRepository
     {
         await _context.SaveChangesAsync();
     }
+    public  void Remove(UserData userData)
+    {
+         _context.Remove(userData);
+    }
 }

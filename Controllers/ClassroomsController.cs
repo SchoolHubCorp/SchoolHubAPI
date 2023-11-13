@@ -7,6 +7,7 @@ using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Domain.Entities.Enums;
 using SchoolHubApi.Helpers;
 using SchoolHubApi.Models.Classroom;
+using SchoolHubApi.Models.Course;
 using SchoolHubApi.Models.Pupil;
 using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
@@ -125,7 +126,10 @@ namespace SchoolHubApi.Controllers
                         pupil.Id,
                         pupil.UserData.Email,
                         pupil.UserData.FirstName,
-                        pupil.UserData.LastName)).ToList()))
+                        pupil.UserData.LastName)).ToList(),
+                    x.Courses.Select(course => new CourseModel(
+                        course.Id,
+                        course.CourseName)).ToList()))
                 .FirstOrDefaultAsync();
 
             if (classroom == null)

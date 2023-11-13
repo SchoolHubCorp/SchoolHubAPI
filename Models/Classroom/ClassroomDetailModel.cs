@@ -1,4 +1,5 @@
-﻿using SchoolHubApi.Models.Pupil;
+﻿using SchoolHubApi.Models.Course;
+using SchoolHubApi.Models.Pupil;
 
 namespace SchoolHubApi.Models.Classroom
 {
@@ -6,6 +7,7 @@ namespace SchoolHubApi.Models.Classroom
     (int Id,
         string ClassName,
         string ClassAccessCode,
-        List<PupilModel> Pupils
+        List<PupilModel> Pupils,
+        List<CourseModel> Courses
         );
 }

@@ -8,6 +8,6 @@ namespace SchoolHubApi.Repositories.Interface
         IQueryable<UserData> Find(Expression<Func<UserData, bool>> expression);
         IQueryable<UserData> FindWithTracking(Expression<Func<UserData, bool>> expression);
         Task SaveChangesAsync();
-
+        void Remove(UserData userData);
     }
 }
