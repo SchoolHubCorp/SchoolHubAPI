@@ -25,7 +25,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<ResetPasswordCode> ResetPasswordCodes { get; set; }
     public DbSet<Classroom> Classrooms { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserData>()
