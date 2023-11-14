@@ -5,9 +5,11 @@ namespace SchoolHubApi.Models.Teacher
 {
     public record TeacherDetailModel(
         int Id,
-        string Email,
         string FirstName,
         string LastName,
+        string Email,
+        string PhoneNumber,
+        string Pesel,
         List<CourseModel> Courses
         );
 }

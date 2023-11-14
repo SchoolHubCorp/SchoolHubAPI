@@ -8,6 +8,8 @@ using SchoolHubApi.Models.Pupil;
 using SchoolHubApi.Models.Parent;
 using SchoolHubApi.Repositories.Interface;
 using System.Security.Claims;
+using SchoolHubApi.Models.UserDto;
+using SchoolHubApi.Domain.Entities;
 
 namespace SchoolHubApi.Controllers
 {
@@ -18,12 +20,14 @@ namespace SchoolHubApi.Controllers
         private readonly IPupilRepository _pupilRepository;
         private readonly IClassRepository _classRepository;
         private readonly IParentRepository _parentRepository;
+        private readonly IUserRepository _userRepository;
 
-        public PupilController(IPupilRepository pupilRepository, IClassRepository classRepository, IParentRepository parentRepository)
+        public PupilController(IPupilRepository pupilRepository, IClassRepository classRepository, IParentRepository parentRepository, IUserRepository userRepository)
         {
             _pupilRepository = pupilRepository;
             _classRepository = classRepository;
             _parentRepository = parentRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet("{pupilId:int}/plan"), Auth(Role.Pupil)]
@@ -89,9 +93,9 @@ namespace SchoolHubApi.Controllers
                 return NotFound("Pupil not found");
 
             _pupilRepository.Remove(pupil);
-
+            _userRepository.Remove(pupil.UserData);
             await _pupilRepository.SaveChangesAsync();
-
+            await _userRepository.SaveChangesAsync();
             return Ok($"Pupil {pupil.UserData.Email}, {pupil.UserData.FirstName} {pupil.UserData.LastName} was delated");
         }
         [HttpGet, Auth(Role.Admin)]
@@ -104,8 +108,7 @@ namespace SchoolHubApi.Controllers
                     x.Id,
                     x.UserData.FirstName,
                     x.UserData.LastName,
-                    x.Classroom.ClassName,
-                    x.Classroom.Id)).ToListAsync(); 
+                    x.Classroom.ClassName)).ToListAsync(); 
         }
 
         [HttpGet("{pupilId:int}"), Auth(Role.Admin)]
@@ -123,17 +126,62 @@ namespace SchoolHubApi.Controllers
                     x.UserData.Pesel,
                     x.Classroom.ClassName,
                     x.Classroom.Id,
-                    x.Parents.Select(pupil => new ParentModel(
-                        pupil.Id,
-                        pupil.UserData.Email,
-                        pupil.UserData.FirstName,
-                        pupil.UserData.LastName)).ToList()))
+                    x.Parents.Select(parent => new ParentModel(
+                        parent.UserData.FirstName,
+                        parent.UserData.LastName,
+                        parent.UserData.PhoneNumber)).ToList()))
                 .FirstOrDefaultAsync();
 
             if (pupil == null)
                 return NotFound("Pupil not found");
 
             return Ok(pupil);
+        }
+        [HttpPut("{pupilId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult<PupilShortModel>> UpdatePupilInfo(int pupilId, [FromBody] PupilDetailUpdateModel request)
+        {
+            var pupil = await _pupilRepository
+                .FindWithTracking(x => x.Id == pupilId)
+                .Include(x => x.UserData)
+                .Include(x => x.Classroom)
+                .FirstOrDefaultAsync();
+
+            if (pupil == null)
+                return NotFound("Pupil not found");
+
+            if (_userRepository.Find(x => x.Pesel == request.Pesel && x.Email != pupil.UserDataEmail).Any())
+                return BadRequest("There is Somebody with this Pesel");
+            if (_userRepository.Find(x => x.PhoneNumber == request.PhoneNumber && x.Email != pupil.UserDataEmail).Any())
+                return BadRequest("There is also pupil with this PhoneNumber");
+
+            pupil.UserData.FirstName = request.FirstName;
+            pupil.UserData.LastName = request.LastName;
+            pupil.UserData.PhoneNumber = request.PhoneNumber;
+            pupil.UserData.Pesel = request.Pesel;
+           
+            await _pupilRepository.SaveChangesAsync();
+
+            return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom.ClassName); 
+        }
+        [HttpPut("{pupilId:int}/changePupilClass"), Auth(Role.Admin)]
+        public async Task<ActionResult<PupilShortModel>> UpdatePupilClass(int pupilId, [FromBody] int classroomId)
+        {
+            var pupil = await _pupilRepository
+                .FindWithTracking(x => x.Id == pupilId)
+                .Include(x => x.UserData)
+                .FirstOrDefaultAsync();
+
+            if (pupilId == null)
+                return NotFound("Pupil not found");
+
+            if (!_classRepository.Find(x => x.Id == classroomId).Any())
+                return BadRequest("Classroom not found");
+
+            pupil.ClassroomId = classroomId;
+
+            await _pupilRepository.SaveChangesAsync();
+
+            return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom.ClassName);
         }
     }
 }

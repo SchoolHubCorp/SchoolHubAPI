@@ -67,9 +67,9 @@ namespace SchoolHubApi.Controllers
                 .OrderBy(x => x.UserData.FirstName)
                 .Select(x => new TeacherShortModel(
                     x.Id,
-                    x.UserData.Email,
                     x.UserData.FirstName,
-                    x.UserData.LastName
+                    x.UserData.LastName,
+                    x.Courses.Count
                     )).ToListAsync();
         }
         [HttpGet("{teacherid:int}"), Auth(Role.Admin)]
@@ -80,9 +80,11 @@ namespace SchoolHubApi.Controllers
                 .Include(x => x.Courses)
                 .Select(x => new TeacherDetailModel(
                     x.Id,
-                    x.UserData.Email,
                     x.UserData.FirstName,
                     x.UserData.LastName,
+                    x.UserData.Email,
+                    x.UserData.PhoneNumber,
+                    x.UserData.Pesel,
                     x.Courses.Select(course => new CourseModel(
                         course.Id,
                         course.CourseName)).ToList()))
@@ -93,15 +95,14 @@ namespace SchoolHubApi.Controllers
 
             return Ok(teacher);
         }
-        /*[HttpGet("teacherCourses"), Auth(Role.Teacher)]
-        public async Task<ActionResult<List<CourseDto>>> GetTeacherCourses( CourseDto courseDto)
+        [HttpGet("teacherCourses"), Auth(Role.Teacher)]
+        public async Task<ActionResult<List<CourseModel>>> GetTeacherCourses()
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
 
             var teacher = await _teacherRepository
                 .Find(x =>x.UserDataEmail == email)
                 .Include(t => t.Courses)  
-                .Select(courseDto.CourseName,courseDto.ClassroomId)
                 .FirstOrDefaultAsync();
 
             if (teacher == null)
@@ -110,10 +111,10 @@ namespace SchoolHubApi.Controllers
             if (teacher.Courses == null || teacher.Courses.Count == 0)
                 return NotFound("Teacher doesn't have courses");
 
-            return Ok(teacher.Courses.ToList());
+            return  teacher.Courses.Select(x => new CourseModel(x.Id,x.CourseName)).ToList();
         }
-        */
-        [HttpGet("{teacherId:int}/plan"), Auth(Role.Teacher)]
+        
+        [HttpGet("{teacherId:int}/plan"), Auth(Role.Admin)]
         public async Task<ActionResult> GetTeacherImage(int teacherId)
         {
             var teacher = await _teacherRepository
@@ -172,7 +173,32 @@ namespace SchoolHubApi.Controllers
             }
             return Ok("Plan uploaded successfully.");
         }
+        [HttpPut("{teacherId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult<TeacherShortModel>> UpdateTeacherInfo(int teacherId, [FromBody] TeacherDetailUpdateModel request)
+        {
+            var teacher = await _teacherRepository
+                .FindWithTracking(x => x.Id == teacherId)
+                .Include(x => x.UserData)
+                .Include(x => x.Courses)
+                .FirstOrDefaultAsync();
 
+            if (teacher == null)
+                return NotFound("Teacher not found");
+
+            if (_userRepository.Find(x => x.Pesel == request.Pesel && x.Email != teacher.UserDataEmail).Any())
+                return BadRequest("There is Somebody with this Pesel");
+            if (_userRepository.Find(x => x.PhoneNumber == request.PhoneNumber && x.Email != teacher.UserDataEmail).Any())
+                return BadRequest("There is also pupil with this PhoneNumber");
+
+            teacher.UserData.FirstName = request.FirstName;
+            teacher.UserData.LastName = request.LastName;
+            teacher.UserData.PhoneNumber = request.PhoneNumber;
+            teacher.UserData.Pesel = request.Pesel;
+
+            await _teacherRepository.SaveChangesAsync();
+
+            return new TeacherShortModel(teacher.Id, teacher.UserData.FirstName, teacher.UserData.LastName, teacher.Courses.Count());
+        }
         [HttpDelete("{teacherId:int}"), Auth(Role.Admin)]
         public async Task<ActionResult> DeleteTeacher(int teacherId)
         {

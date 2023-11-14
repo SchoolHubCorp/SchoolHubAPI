@@ -6,6 +6,5 @@ namespace SchoolHubApi.Models.Pupil
        string FirstName,
        string LastName,
 
-       string Classname,
-       int ClassroomId);
+       string Classname);
 }

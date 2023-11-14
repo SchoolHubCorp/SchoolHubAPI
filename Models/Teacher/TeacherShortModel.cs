@@ -2,8 +2,8 @@
 {
     public record TeacherShortModel(
         int Id,
-        string Email,
         string FirstName,
-        string LastName
+        string LastName,
+        int QuantityOfsubjects
     );
 }

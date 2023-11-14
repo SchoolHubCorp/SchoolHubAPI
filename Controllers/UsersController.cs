@@ -93,7 +93,8 @@ public class UsersController : ControllerBase
         HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var child = _pupilRepository
-            .Find(x => x.AccessCode == request.ChildCode)
+            .FindWithTracking(x => x.AccessCode == request.ChildCode)
+            .Include(x => x.Parents)
             .FirstOrDefault();
 
         if (child is null)
@@ -114,10 +115,12 @@ public class UsersController : ControllerBase
             }
         };
 
-        parent.Children.Add(child);
 
         _parentRepository.Add(parent);
         await _parentRepository.SaveChangesAsync();
+
+        child.Parents.Add(parent);
+        await _pupilRepository.SaveChangesAsync();
 
         return Login(new AuthenticateRequest
         {
