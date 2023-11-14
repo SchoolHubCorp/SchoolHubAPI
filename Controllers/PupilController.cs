@@ -169,19 +169,20 @@ namespace SchoolHubApi.Controllers
             var pupil = await _pupilRepository
                 .FindWithTracking(x => x.Id == pupilId)
                 .Include(x => x.UserData)
+                .Include(x =>x.Classroom)
                 .FirstOrDefaultAsync();
-
-            if (pupilId == null)
+           
+            if (pupil == null)
                 return NotFound("Pupil not found");
-
-            if (!_classRepository.Find(x => x.Id == classroomId).Any())
+            var classroom = await _classRepository.FindWithTracking(x => x.Id == classroomId).FirstOrDefaultAsync();
+            if (classroom == null)
                 return BadRequest("Classroom not found");
 
-            pupil.ClassroomId = classroomId;
+            pupil.Classroom = classroom;
 
             await _pupilRepository.SaveChangesAsync();
 
-            return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom.ClassName);
+            return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom?.ClassName);
         }
     }
 }
