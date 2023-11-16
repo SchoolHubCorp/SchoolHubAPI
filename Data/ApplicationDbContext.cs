@@ -25,6 +25,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<ResetPasswordCode> ResetPasswordCodes { get; set; }
     public DbSet<Classroom> Classrooms { get; set; }    
     public DbSet<Course> Courses { get; set; }
+    public DbSet<Topic> Topics { get; set; }
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

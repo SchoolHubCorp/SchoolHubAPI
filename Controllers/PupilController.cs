@@ -57,30 +57,6 @@ namespace SchoolHubApi.Controllers
             return RedirectToAction("GetClassImage", "classroom", new { classroomId = pupil.ClassroomId });
         }
 
-        [HttpPost("{pupilId:int}/changeClass"), Auth(Role.Admin)]
-        public async Task<ActionResult> ChangePupilClass( int pupilId, [FromBody] int classroomId)
-        {
-            var pupil = await _pupilRepository
-                .FindWithTracking(x => x.Id == pupilId)
-                .FirstOrDefaultAsync();
-
-            if (pupil == null)
-                return NotFound("Pupil not found");
-
-            var classroom =  _classRepository
-                .Find(x => x.Id == classroomId)
-                .Any();
-
-            if (!classroom)
-                return NotFound("Сlass not found");
-
-            pupil.ClassroomId = classroomId;
-
-            await _pupilRepository.SaveChangesAsync();
-
-            return Ok(pupil);
-        }
-
         [HttpDelete("{pupilId:int}"), Auth(Role.Admin)]
         public async Task<ActionResult> DeletePupil(int pupilId)
         {
@@ -164,25 +140,27 @@ namespace SchoolHubApi.Controllers
             return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom.ClassName); 
         }
         [HttpPut("{pupilId:int}/changePupilClass"), Auth(Role.Admin)]
-        public async Task<ActionResult<PupilShortModel>> UpdatePupilClass(int pupilId, [FromBody] int classroomId)
+        public async Task<ActionResult<PupilShortModel>> UpdatePupilClass(int pupilId, [FromBody] PupilClassroomModel request)
         {
             var pupil = await _pupilRepository
                 .FindWithTracking(x => x.Id == pupilId)
                 .Include(x => x.UserData)
-                .Include(x =>x.Classroom)
+                .Include(x => x.Classroom) 
                 .FirstOrDefaultAsync();
-           
+
             if (pupil == null)
                 return NotFound("Pupil not found");
-            var classroom = await _classRepository.FindWithTracking(x => x.Id == classroomId).FirstOrDefaultAsync();
+
+            var classroom = await _classRepository.FindWithTracking(x => x.Id == request.ClassroomId).FirstOrDefaultAsync();
+
             if (classroom == null)
                 return BadRequest("Classroom not found");
 
-            pupil.Classroom = classroom;
+            pupil.ClassroomId = request.ClassroomId;
 
             await _pupilRepository.SaveChangesAsync();
-
-            return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom?.ClassName);
+            return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom.ClassName);
         }
+
     }
 }

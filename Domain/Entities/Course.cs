@@ -7,6 +7,7 @@
         public int TeacherId { get; set; }
         public Classroom Classroom { get; set; }
         public Teacher Teacher { get; set; }
+        public ICollection<Topic> Topic { get; set; }
         private Course()
         {
 
