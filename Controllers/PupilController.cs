@@ -97,7 +97,7 @@ namespace SchoolHubApi.Controllers
                     x.Id,
                     x.UserData.Email,
                     x.UserData.FirstName,
-                    x.UserData.FirstName,
+                    x.UserData.LastName,
                     x.UserData.PhoneNumber,
                     x.UserData.Pesel,
                     x.Classroom.ClassName,
@@ -161,6 +161,5 @@ namespace SchoolHubApi.Controllers
             await _pupilRepository.SaveChangesAsync();
             return new PupilShortModel(pupil.Id, pupil.UserData.FirstName, pupil.UserData.LastName, pupil.Classroom.ClassName);
         }
-
     }
 }
