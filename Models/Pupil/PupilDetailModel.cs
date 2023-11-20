@@ -11,6 +11,7 @@ namespace SchoolHubApi.Models.Pupil
         string LastName,
         string PhoneNumber,
         string Pesel,
+        string ParentAccessCode,
 
         string Classname,
         int ClassroomId,

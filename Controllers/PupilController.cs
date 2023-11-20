@@ -100,6 +100,7 @@ namespace SchoolHubApi.Controllers
                     x.UserData.LastName,
                     x.UserData.PhoneNumber,
                     x.UserData.Pesel,
+                    x.AccessCode,
                     x.Classroom.ClassName,
                     x.Classroom.Id,
                     x.Parents.Select(parent => new ParentModel(
