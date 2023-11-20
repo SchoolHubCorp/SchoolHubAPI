@@ -1,6 +1,12 @@
-﻿namespace SchoolHubApi.Models.Course
+﻿using SchoolHubApi.Domain.Entities;
+using SchoolHubApi.Models.Teacher;
+
+namespace SchoolHubApi.Models.Course
 {
     public record CourseNameModel
     (
-        string CourseName);
+        int Id,
+        string CourseName,
+        string TeacherName,
+        string TeacherLastName);
 }

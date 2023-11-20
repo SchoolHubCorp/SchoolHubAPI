@@ -8,6 +8,6 @@ namespace SchoolHubApi.Models.Classroom
         string ClassName,
         string ClassAccessCode,
         List<PupilModel> Pupils,
-        List<CourseModel> Courses
+        List<CourseNameModel> Courses
         );
 }

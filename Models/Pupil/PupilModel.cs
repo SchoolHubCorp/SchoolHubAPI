@@ -1,4 +1,6 @@
-﻿namespace SchoolHubApi.Models.Pupil
+﻿using SchoolHubApi.Models.Course;
+
+namespace SchoolHubApi.Models.Pupil
 {
     public record PupilModel(
         int Id,

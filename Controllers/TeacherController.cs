@@ -85,9 +85,10 @@ namespace SchoolHubApi.Controllers
                     x.UserData.Email,
                     x.UserData.PhoneNumber,
                     x.UserData.Pesel,
-                    x.Courses.Select(course => new CourseModel(
+                    x.Courses.Select(course => new CourseClassModel(
                         course.Id,
-                        course.CourseName)).ToList()))
+                        course.CourseName,
+                        course.Classroom.ClassName)).ToList()))
                 .FirstOrDefaultAsync();
 
             if (teacher == null)

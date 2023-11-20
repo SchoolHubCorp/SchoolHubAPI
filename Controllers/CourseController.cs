@@ -10,6 +10,7 @@ using SchoolHubApi.Models.Course;
 using SchoolHubApi.Controllers.Attributes;
 using Microsoft.EntityFrameworkCore;
 using SchoolHubApi.Models.Pupil;
+using SchoolHubApi.Models.Parent;
 
 namespace SchoolHubApi.Controllers
 {
@@ -62,6 +63,22 @@ namespace SchoolHubApi.Controllers
                 .OrderBy(x => x.CourseName)
                 .Select(x => new CourseModel(x.Id, x.CourseName))
                 .ToListAsync();
+        }
+        [HttpDelete("{courseId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult<CourseModel>> DeleteClassroom(int courseId)
+        {
+            var course = await _courseRepository
+                .FindWithTracking(x => x.Id == courseId)
+                .FirstOrDefaultAsync();
+
+            if (course == null)
+                return NotFound("Pupil not found");
+
+            _courseRepository.Remove(course);
+
+            await _courseRepository.SaveChangesAsync();
+
+            return Ok("Course was deleted sucsessfully");
         }
     }
 }

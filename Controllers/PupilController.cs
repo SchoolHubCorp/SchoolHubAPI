@@ -103,6 +103,7 @@ namespace SchoolHubApi.Controllers
                     x.Classroom.ClassName,
                     x.Classroom.Id,
                     x.Parents.Select(parent => new ParentModel(
+                        parent.Id,
                         parent.UserData.FirstName,
                         parent.UserData.LastName,
                         parent.UserData.PhoneNumber)).ToList()))

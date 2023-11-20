@@ -10,6 +10,6 @@ namespace SchoolHubApi.Models.Teacher
         string Email,
         string PhoneNumber,
         string Pesel,
-        List<CourseModel> Courses
+        List<CourseClassModel> Courses
         );
 }

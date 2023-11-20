@@ -9,8 +9,10 @@ using SchoolHubApi.Helpers;
 using SchoolHubApi.Models.Classroom;
 using SchoolHubApi.Models.Course;
 using SchoolHubApi.Models.Pupil;
+using SchoolHubApi.Models.Teacher;
 using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
+using System.Linq;
 
 namespace SchoolHubApi.Controllers
 {
@@ -127,13 +129,15 @@ namespace SchoolHubApi.Controllers
                         pupil.UserData.Email,
                         pupil.UserData.FirstName,
                         pupil.UserData.LastName)).ToList(),
-                    x.Courses.Select(course => new CourseModel(
+                    x.Courses.Select(course => new CourseNameModel(
                         course.Id,
-                        course.CourseName)).ToList()))
+                        course.CourseName,
+                        course.Teacher.UserData.FirstName,
+                        course.Teacher.UserData.LastName)).ToList()))
                 .FirstOrDefaultAsync();
 
             if (classroom == null)
-                return NotFound("Pupil not found");
+                return NotFound("Classroom not found");
 
             return Ok(classroom);
         }
