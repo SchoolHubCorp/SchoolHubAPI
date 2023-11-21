@@ -66,7 +66,7 @@ namespace SchoolHubApi.Controllers
         }
 
         [HttpDelete("{courseId:int}"), Auth(Role.Admin)]
-        public async Task<ActionResult<CourseModel>> DeleteClassroom(int courseId)
+        public async Task<ActionResult<CourseModel>> DeleteCourse(int courseId)
         {
             var course = await _courseRepository
                 .FindWithTracking(x => x.Id == courseId)

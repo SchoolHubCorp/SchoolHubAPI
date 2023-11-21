@@ -5,6 +5,7 @@ using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Models.Course;
 using SchoolHubApi.Repositories.Interface;
 using SchoolHubApi.Models.Topic;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolHubApi.Controllers
 {
@@ -72,6 +73,21 @@ namespace SchoolHubApi.Controllers
             }
             return Ok("File was uploaded successfully.");
         }
-        
+        [HttpDelete("{topicId:int}"), Auth(Role.Admin)]
+        public async Task<ActionResult<CourseModel>> DeleteTopic(int topicId)
+        {
+            var topic = await _topicRepository
+                .FindWithTracking(x => x.Id == topicId)
+                .FirstOrDefaultAsync();
+
+            if (topic == null)
+                return NotFound("Pupil not found");
+
+            _topicRepository.Remove(topic);
+
+            await _topicRepository.SaveChangesAsync();
+
+            return Ok("Topic was deleted sucsessfully");
+        }
     }
 }
