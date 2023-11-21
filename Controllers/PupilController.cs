@@ -124,13 +124,15 @@ namespace SchoolHubApi.Controllers
             return Ok(pupil);
         }
         [HttpGet("pupilCourses"), Auth(Role.Pupil)]
-        public async Task<ActionResult<List<CourseModel>>> GetPupilCourses()
+        public async Task<ActionResult<List<CourseTeacherModel>>> GetPupilCourses()
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
 
             var pupil = await _pupilRepository
                 .Find(x => x.UserDataEmail == email)
                 .Include(t => t.Classroom.Courses)
+                .ThenInclude(c => c.Teacher)
+                .ThenInclude(u => u.UserData)
                 .FirstOrDefaultAsync();
 
             if (pupil == null)
@@ -139,7 +141,7 @@ namespace SchoolHubApi.Controllers
             if (pupil.Classroom.Courses == null || pupil.Classroom.Courses.Count == 0)
                 return NotFound("Teacher doesn't have courses");
 
-            return pupil.Classroom.Courses.Select(x => new CourseModel(x.Id, x.CourseName)).ToList();
+            return pupil.Classroom.Courses.Select(x => new CourseTeacherModel(x.Id, x.CourseName, x.Teacher.UserData.FirstName,x.Teacher.UserData.LastName)).ToList();
         }
         [HttpGet("{courseId:int}/Topics"), Auth(Role.Pupil)]
         public async Task<ActionResult<List<CourseTopicModel>>> GetPupilTopics(int courseId)
