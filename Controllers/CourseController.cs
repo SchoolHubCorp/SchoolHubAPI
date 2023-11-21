@@ -56,14 +56,15 @@ namespace SchoolHubApi.Controllers
         }
 
         [HttpGet, Auth(Role.Admin)]
-        public async Task<ActionResult<List<CourseModel>>> GetAllCourses()
+        public async Task<ActionResult<List<CourseClassModel>>> GetAllCourses()
         {
             return await _courseRepository
                 .GetAll()
                 .OrderBy(x => x.CourseName)
-                .Select(x => new CourseModel(x.Id, x.CourseName))
+                .Select(x => new CourseClassModel(x.Id, x.CourseName, x.Classroom.ClassName))
                 .ToListAsync();
         }
+
         [HttpDelete("{courseId:int}"), Auth(Role.Admin)]
         public async Task<ActionResult<CourseModel>> DeleteClassroom(int courseId)
         {

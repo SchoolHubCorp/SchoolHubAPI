@@ -147,7 +147,6 @@ public class UsersController : ControllerBase
         return new AuthenticateResponse(userInDb, token);
     }
 
-
     [HttpGet("TestAuth"), Authorize]
     public ActionResult Test0()
     {
@@ -177,7 +176,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("ForgotPassword")]
-    public async Task<ActionResult> ForgotPassword([FromBody,EmailAddress] string Email)
+    public async Task<ActionResult> ForgotPassword([FromBody] string Email)
     {
         if (!ModelState.IsValid) 
         {

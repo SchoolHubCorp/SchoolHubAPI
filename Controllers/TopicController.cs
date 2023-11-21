@@ -72,5 +72,6 @@ namespace SchoolHubApi.Controllers
             }
             return Ok("File was uploaded successfully.");
         }
+        
     }
 }

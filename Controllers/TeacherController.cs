@@ -9,6 +9,7 @@ using SchoolHubApi.Models.Classroom;
 using SchoolHubApi.Models.Course;
 using SchoolHubApi.Models.Pupil;
 using SchoolHubApi.Models.Teacher;
+using SchoolHubApi.Models.Topic;
 using SchoolHubApi.Models.UserDto;
 using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
@@ -96,14 +97,37 @@ namespace SchoolHubApi.Controllers
 
             return Ok(teacher);
         }
+        [HttpGet("{courseId:int}/Topics"), Auth(Role.Teacher)]
+        public async Task<ActionResult<List<CourseTopicModel>>> GetTeacherTopics(int courseId)
+        {
+            var course = await _courseRepository
+                .Find(x => x.Id == courseId)
+                .Include(t => t.Topic)
+                .Select(x => new CourseTopicModel(
+                    x.Id,
+                    x.CourseName,
+                    x.Topic.Select(topic => new TopicModel(
+                        topic.Id,
+                        topic.TopicName,
+                        topic.Description)).ToList()))
+                .FirstOrDefaultAsync();
+
+            if (course == null)
+                return NotFound("Teacher not found");
+
+            if (course.Topics == null || course.Topics.Count == 0)
+                return NotFound("Course doesn't have topics");
+
+            return Ok(course);
+        }
         [HttpGet("teacherCourses"), Auth(Role.Teacher)]
-        public async Task<ActionResult<List<CourseModel>>> GetTeacherCourses()
+        public async Task<ActionResult<List<CourseClassModel>>> GetTeacherСourses()
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
-
             var teacher = await _teacherRepository
-                .Find(x =>x.UserDataEmail == email)
-                .Include(t => t.Courses)  
+                .Find(x => x.UserDataEmail == email)
+                .Include(t => t.Courses)
+                .ThenInclude(t => t.Classroom)
                 .FirstOrDefaultAsync();
 
             if (teacher == null)
@@ -112,9 +136,9 @@ namespace SchoolHubApi.Controllers
             if (teacher.Courses == null || teacher.Courses.Count == 0)
                 return NotFound("Teacher doesn't have courses");
 
-            return  teacher.Courses.Select(x => new CourseModel(x.Id,x.CourseName)).ToList();
+            return teacher.Courses.Select(x => new CourseClassModel(x.Id, x.CourseName,x.Classroom.ClassName)).ToList();
         }
-        
+
         [HttpGet("{teacherId:int}/plan"), Auth(Role.Admin)]
         public async Task<ActionResult> GetTeacherImage(int teacherId)
         {

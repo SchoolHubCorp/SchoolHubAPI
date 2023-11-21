@@ -10,6 +10,9 @@ using SchoolHubApi.Repositories.Interface;
 using System.Security.Claims;
 using SchoolHubApi.Models.UserDto;
 using SchoolHubApi.Domain.Entities;
+using SchoolHubApi.Models.Course;
+using SchoolHubApi.Repositories.Implementation;
+using SchoolHubApi.Models.Topic;
 
 namespace SchoolHubApi.Controllers
 {
@@ -21,13 +24,17 @@ namespace SchoolHubApi.Controllers
         private readonly IClassRepository _classRepository;
         private readonly IParentRepository _parentRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly ITopicRepository _topicRepository;
 
-        public PupilController(IPupilRepository pupilRepository, IClassRepository classRepository, IParentRepository parentRepository, IUserRepository userRepository)
+        public PupilController(IPupilRepository pupilRepository, IClassRepository classRepository, IParentRepository parentRepository, IUserRepository userRepository, ICourseRepository courseRepository, ITopicRepository topicRepository)
         {
             _pupilRepository = pupilRepository;
             _classRepository = classRepository;
             _parentRepository = parentRepository;
             _userRepository = userRepository;
+            _courseRepository = courseRepository;
+            _topicRepository = topicRepository;
         }
 
         [HttpGet("{pupilId:int}/plan"), Auth(Role.Pupil)]
@@ -48,6 +55,7 @@ namespace SchoolHubApi.Controllers
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
             var pupil = await _pupilRepository
+
                 .Find(x => x.UserData.Email == email)
                 .FirstOrDefaultAsync();
 
@@ -114,6 +122,47 @@ namespace SchoolHubApi.Controllers
                 return NotFound("Pupil not found");
 
             return Ok(pupil);
+        }
+        [HttpGet("pupilCourses"), Auth(Role.Pupil)]
+        public async Task<ActionResult<List<CourseModel>>> GetPupilCourses()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Name);
+
+            var pupil = await _pupilRepository
+                .Find(x => x.UserDataEmail == email)
+                .Include(t => t.Classroom.Courses)
+                .FirstOrDefaultAsync();
+
+            if (pupil == null)
+                return NotFound("pupil not found");
+
+            if (pupil.Classroom.Courses == null || pupil.Classroom.Courses.Count == 0)
+                return NotFound("Teacher doesn't have courses");
+
+            return pupil.Classroom.Courses.Select(x => new CourseModel(x.Id, x.CourseName)).ToList();
+        }
+        [HttpGet("{courseId:int}/Topics"), Auth(Role.Pupil)]
+        public async Task<ActionResult<List<CourseTopicModel>>> GetPupilTopics(int courseId)
+        {
+            var course = await _courseRepository
+                .Find(x => x.Id == courseId)
+                .Include(t => t.Topic)
+                .Select(x => new CourseTopicModel(
+                    x.Id,
+                    x.CourseName,
+                    x.Topic.Select(topic => new TopicModel(
+                        topic.Id,
+                        topic.TopicName,
+                        topic.Description)).ToList()))
+                .FirstOrDefaultAsync();
+
+            if (course == null)
+                return NotFound("Teacher not found");
+
+            if (course.Topics == null || course.Topics.Count == 0)
+                return NotFound("Course doesn't have topics");
+
+            return Ok(course);
         }
         [HttpPut("{pupilId:int}"), Auth(Role.Admin)]
         public async Task<ActionResult<PupilShortModel>> UpdatePupilInfo(int pupilId, [FromBody] PupilDetailUpdateModel request)
