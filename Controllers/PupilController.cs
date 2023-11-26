@@ -13,6 +13,7 @@ using SchoolHubApi.Domain.Entities;
 using SchoolHubApi.Models.Course;
 using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Models.Topic;
+using SchoolHubApi.Models.Homework;
 
 namespace SchoolHubApi.Controllers
 {
@@ -144,28 +145,39 @@ namespace SchoolHubApi.Controllers
             return pupil.Classroom.Courses.Select(x => new CourseTeacherModel(x.Id, x.CourseName, x.Teacher.UserData.FirstName,x.Teacher.UserData.LastName)).ToList();
         }
         [HttpGet("{courseId:int}/Topics"), Auth(Role.Pupil)]
-        public async Task<ActionResult<List<CourseTopicModel>>> GetPupilTopics(int courseId)
+        public async Task<ActionResult<List<CourseTopicSendModel>>> GetPupilTopics(int courseId)
         {
             var course = await _courseRepository
                 .Find(x => x.Id == courseId)
                 .Include(t => t.Topic)
-                .Select(x => new CourseTopicModel(
+                .ThenInclude(topic => topic.Homeworks)
+                .Select(x => new CourseTopicSendModel(
                     x.Id,
                     x.CourseName,
-                    x.Topic.Select(topic => new TopicModel(
+                    x.Topic.Select(topic => new TopicSendFileModel(
                         topic.Id,
                         topic.TopicName,
-                        topic.Description)).ToList()))
+                        topic.Description,
+                        topic.TopicFile,
+                        topic.TopicFileType))
+                        .ToList(),
+                    x.Topic.SelectMany(topic => topic.Homeworks)
+                        .Select(homework => new HomeworkPupilModel(
+                            homework.Id,
+                            homework.HomeworkFile,
+                            homework.HomeworkFileType))
+                        .ToList()))
                 .FirstOrDefaultAsync();
 
             if (course == null)
-                return NotFound("Teacher not found");
+                return NotFound("Course not found");
 
             if (course.Topics == null || course.Topics.Count == 0)
                 return NotFound("Course doesn't have topics");
 
             return Ok(course);
         }
+
         [HttpPut("{pupilId:int}"), Auth(Role.Admin)]
         public async Task<ActionResult<PupilShortModel>> UpdatePupilInfo(int pupilId, [FromBody] PupilDetailUpdateModel request)
         {

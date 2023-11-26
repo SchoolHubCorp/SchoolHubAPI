@@ -94,6 +94,57 @@ namespace SchoolHubApi.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Homework", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("HomeworkFile")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("HomeworkFileType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PupilId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PupilId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Homeworks");
+                });
+
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Mark", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("HomeworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarkName")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeworkId")
+                        .IsUnique();
+
+                    b.ToTable("Marks");
+                });
+
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.Parent", b =>
                 {
                     b.Property<int>("Id")
@@ -274,8 +325,8 @@ namespace SchoolHubApi.Migrations
                             Email = "schoolhubpl@gmail.com",
                             FirstName = "Admin",
                             LastName = "",
-                            PasswordHash = new byte[] { 227, 198, 130, 243, 196, 75, 13, 64, 61, 126, 253, 198, 5, 236, 161, 218, 197, 120, 167, 198, 29, 0, 27, 100, 29, 81, 42, 78, 185, 164, 236, 88, 166, 61, 213, 154, 91, 148, 94, 10, 70, 1, 20, 205, 146, 53, 103, 150, 31, 19, 168, 46, 220, 198, 237, 22, 133, 32, 111, 90, 62, 250, 113, 188 },
-                            PasswordSalt = new byte[] { 212, 147, 242, 126, 192, 137, 56, 147, 145, 225, 253, 6, 119, 226, 195, 28, 79, 155, 111, 252, 151, 137, 211, 17, 133, 51, 159, 170, 184, 36, 71, 198, 169, 53, 162, 64, 223, 205, 20, 235, 67, 32, 221, 98, 26, 46, 177, 196, 50, 19, 18, 247, 102, 233, 253, 207, 107, 13, 52, 80, 169, 87, 54, 98, 192, 125, 250, 219, 112, 102, 207, 94, 234, 206, 64, 86, 176, 83, 37, 27, 153, 155, 244, 172, 133, 121, 142, 59, 244, 95, 7, 116, 200, 72, 45, 191, 52, 46, 224, 79, 41, 241, 251, 55, 224, 170, 75, 220, 5, 56, 82, 203, 169, 154, 22, 46, 219, 236, 148, 26, 39, 18, 18, 232, 182, 99, 91, 214 },
+                            PasswordHash = new byte[] { 81, 35, 24, 20, 124, 227, 87, 28, 121, 179, 126, 124, 216, 198, 170, 236, 248, 142, 98, 199, 203, 7, 148, 14, 177, 173, 175, 214, 24, 143, 51, 41, 231, 102, 161, 178, 253, 171, 202, 122, 67, 244, 37, 8, 86, 137, 238, 215, 170, 98, 89, 99, 67, 233, 97, 12, 243, 88, 68, 255, 207, 234, 219, 192 },
+                            PasswordSalt = new byte[] { 171, 71, 171, 84, 70, 198, 232, 114, 42, 45, 206, 234, 155, 252, 178, 14, 250, 180, 134, 220, 234, 46, 8, 226, 99, 90, 206, 26, 91, 217, 89, 172, 75, 204, 165, 205, 91, 132, 97, 72, 163, 79, 185, 164, 72, 189, 55, 22, 132, 242, 200, 48, 2, 30, 232, 225, 230, 177, 21, 75, 66, 137, 112, 176, 154, 142, 118, 24, 98, 220, 162, 250, 42, 101, 189, 218, 118, 48, 204, 162, 159, 104, 30, 216, 47, 15, 182, 52, 46, 24, 108, 254, 17, 176, 126, 11, 187, 186, 122, 91, 34, 55, 145, 28, 239, 137, 214, 64, 96, 45, 202, 124, 249, 191, 41, 173, 55, 179, 222, 3, 118, 159, 133, 159, 134, 190, 24, 41 },
                             Pesel = "",
                             PhoneNumber = "",
                             Role = "Admin"
@@ -314,6 +365,36 @@ namespace SchoolHubApi.Migrations
                     b.Navigation("Classroom");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Homework", b =>
+                {
+                    b.HasOne("SchoolHubApi.Domain.Entities.Pupil", "Pupil")
+                        .WithMany("Homeworks")
+                        .HasForeignKey("PupilId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SchoolHubApi.Domain.Entities.Topic", "Topic")
+                        .WithMany("Homeworks")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Pupil");
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Mark", b =>
+                {
+                    b.HasOne("SchoolHubApi.Domain.Entities.Homework", "Homework")
+                        .WithOne("Mark")
+                        .HasForeignKey("SchoolHubApi.Domain.Entities.Mark", "HomeworkId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Homework");
                 });
 
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.Parent", b =>
@@ -389,9 +470,25 @@ namespace SchoolHubApi.Migrations
                     b.Navigation("Topic");
                 });
 
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Homework", b =>
+                {
+                    b.Navigation("Mark")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Pupil", b =>
+                {
+                    b.Navigation("Homeworks");
+                });
+
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.Teacher", b =>
                 {
                     b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("SchoolHubApi.Domain.Entities.Topic", b =>
+                {
+                    b.Navigation("Homeworks");
                 });
 
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.UserData", b =>

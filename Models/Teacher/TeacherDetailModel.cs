@@ -1,5 +1,4 @@
-﻿using SchoolHubApi.Migrations;
-using SchoolHubApi.Models.Course;
+﻿using SchoolHubApi.Models.Course;
 
 namespace SchoolHubApi.Models.Teacher
 {
