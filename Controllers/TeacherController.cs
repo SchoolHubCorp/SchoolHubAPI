@@ -210,11 +210,6 @@ namespace SchoolHubApi.Controllers
             if (teacher == null)
                 return NotFound("Teacher not found");
 
-            if (_userRepository.Find(x => x.Pesel == request.Pesel && x.Email != teacher.UserDataEmail).Any())
-                return BadRequest("There is Somebody with this Pesel");
-            if (_userRepository.Find(x => x.PhoneNumber == request.PhoneNumber && x.Email != teacher.UserDataEmail).Any())
-                return BadRequest("There is also pupil with this PhoneNumber");
-
             teacher.UserData.FirstName = request.FirstName;
             teacher.UserData.LastName = request.LastName;
             teacher.UserData.PhoneNumber = request.PhoneNumber;

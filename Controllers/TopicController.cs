@@ -73,8 +73,8 @@ namespace SchoolHubApi.Controllers
             }
             return Ok("File was uploaded successfully.");
         }
-        [HttpDelete("{topicId:int}"), Auth(Role.Admin)]
-        public async Task<ActionResult<CourseModel>> DeleteTopic(int topicId)
+        [HttpDelete("{topicId:int}"), Auth(Role.Teacher)]
+        public async Task<ActionResult<TopicModel>> DeleteTopic(int topicId)
         {
             var topic = await _topicRepository
                 .FindWithTracking(x => x.Id == topicId)
