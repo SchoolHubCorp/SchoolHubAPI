@@ -81,7 +81,7 @@ namespace SchoolHubApi.Controllers
                 .FirstOrDefaultAsync();
 
             if (topic == null)
-                return NotFound("Pupil not found");
+                return NotFound("Topic not found");
 
             _topicRepository.Remove(topic);
 

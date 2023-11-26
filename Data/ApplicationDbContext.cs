@@ -26,6 +26,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Classroom> Classrooms { get; set; }    
     public DbSet<Course> Courses { get; set; }
     public DbSet<Topic> Topics { get; set; }
+    public DbSet<Homework> Homeworks { get; set; }
+    public DbSet<Mark> Marks { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,9 +53,31 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Pupil>()
             .HasIndex(x => x.AccessCode)
             .IsUnique();
+
         modelBuilder.Entity<Classroom>()
             .HasIndex(x => x.ClassAccessCode)
             .IsUnique();
+
+        modelBuilder.Entity<Mark>()
+            .HasOne(m => m.Homework)
+            .WithOne(h => h.Mark)
+            .HasForeignKey<Mark>(x =>x.HomeworkId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Homework>()
+            .HasOne(m => m.Pupil)
+            .WithMany(h => h.Homeworks)
+            .HasForeignKey(x => x.PupilId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Homework>()
+            .HasOne(h => h.Topic)
+            .WithMany(t => t.Homeworks)
+            .HasForeignKey(h => h.TopicId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
+
+
 
         HashPasswordHelper.CreatePasswordHash("admin", out var passwordHash, out var passwordSalt);
 
