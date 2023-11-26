@@ -4,6 +4,7 @@
     (
         string pupilName,
         string pupilSurname,
+        int? HomeworkId,
         byte[]? pupilHomework,
         int? MarkName
         );

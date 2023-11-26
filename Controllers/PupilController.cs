@@ -148,11 +148,17 @@ namespace SchoolHubApi.Controllers
         public async Task<ActionResult<List<CourseTopicSendModel>>> GetPupilTopics(int courseId)
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
-            var pupil = _pupilRepository.Find(x => x.UserDataEmail ==email);
+            var pupil = _pupilRepository
+                .Find(x => x.UserDataEmail == email)
+                .FirstOrDefault();
+
+            if (pupil == null)
+                return NotFound("Pupil not found");
+
             var course = await _courseRepository
                 .Find(x => x.Id == courseId)
                 .Include(t => t.Topic)
-                .ThenInclude(topic => topic.Homeworks)
+                .ThenInclude(topic => topic.Homeworks.Where(h => h.PupilId == pupil.Id))
                 .Select(x => new CourseTopicSendModel(
                     x.Id,
                     x.CourseName,
@@ -162,11 +168,12 @@ namespace SchoolHubApi.Controllers
                         topic.Description,
                         topic.TopicFile,
                         topic.TopicFileType,
-                        topic.Homeworks.Select(homework => new HomeworkPupilModel(
-                            homework.Id,
-                            homework.HomeworkFile,
-                            homework.HomeworkFileType))
-                        .ToList()))
+                        topic.Homeworks.Where(homework => homework.PupilId == pupil.Id)
+                            .Select(homework => new HomeworkPupilModel(
+                                homework.Id,
+                                homework.HomeworkFile,
+                                homework.HomeworkFileType))
+                            .ToList()))
                         .ToList()))
                 .FirstOrDefaultAsync();
 

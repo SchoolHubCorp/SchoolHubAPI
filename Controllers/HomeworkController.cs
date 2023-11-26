@@ -71,25 +71,30 @@ namespace SchoolHubApi.Controllers
             return Ok("Homework was submitted successfully.");
         }
 
-        //листа учеников файл оценка
-        [HttpGet("{topicId:int}/Topics"), Auth(Role.Teacher)]
-        public async Task<ActionResult<List<PupilHomeworkModel>>> GetTeacherTopics(int topicId)
+        [HttpGet("{topicId:int}/Homeworks"), Auth(Role.Teacher)]
+        public async Task<ActionResult<List<PupilHomeworkModel>>> CheckHomework(int topicId)
         {
-            var homeworkList = await _homeworkRepository
-                .Find(h => h.TopicId == topicId)
-                .Include(h => h.Pupil.UserData)
-                .Select(h => new PupilHomeworkModel(
-                    h.Pupil.UserData.FirstName,
-                    h.Pupil.UserData.LastName,
-                    h.HomeworkFile,
-                    h.Mark.MarkName))
-                .ToListAsync();
+            var pupilsWithHomework = await _pupilRepository
+                 .Find(p => p.Classroom.Courses.Any(s => s.Topic.Any(t => t.Id == topicId)))
+                 .Include(p => p.UserData)
+                 .Include(p => p.Homeworks)
+                 .ThenInclude(x =>x.Mark)
+                 .ToListAsync();
 
-            if (homeworkList == null || homeworkList.Count == 0)
-                return NotFound("Homework not found");
+            var result = pupilsWithHomework.Select(pupil => new PupilHomeworkModel(
+                pupil.UserData.FirstName,
+                pupil.UserData.LastName,
+                pupil.Homeworks.FirstOrDefault(h => h.TopicId == topicId)?.Id,
+                pupil.Homeworks.FirstOrDefault(h => h.TopicId == topicId)?
+                    .HomeworkFile,
+                pupil.Homeworks?
+                    .FirstOrDefault(h => h.TopicId == topicId)?
+                    .Mark?.MarkName
+            ));
 
-            return Ok(homeworkList);
+            return Ok(result);
         }
+
 
     }
 }
