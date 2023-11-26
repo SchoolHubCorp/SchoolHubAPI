@@ -106,10 +106,13 @@ namespace SchoolHubApi.Controllers
                 .Select(x => new CourseTopicModel(
                     x.Id,
                     x.CourseName,
-                    x.Topic.Select(topic => new TopicModel(
+                    x.Topic.Select(topic => new TopicPupilModel(
                         topic.Id,
                         topic.TopicName,
-                        topic.Description)).ToList()))
+                        topic.Description,
+                        topic.TopicFile,
+                        topic.TopicFileType))
+                    .ToList()))
                 .FirstOrDefaultAsync();
 
             if (course == null)
@@ -120,6 +123,7 @@ namespace SchoolHubApi.Controllers
 
             return Ok(course);
         }
+
         [HttpGet("teacherCourses"), Auth(Role.Teacher)]
         public async Task<ActionResult<List<CourseClassModel>>> GetTeacherСourses()
         {

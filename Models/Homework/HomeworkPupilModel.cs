@@ -2,7 +2,7 @@
 {
     public record HomeworkPupilModel
 (
-    int Id,
+    int HomeworkId,
     byte[] PupilFile,
     string PupilFileType
 );

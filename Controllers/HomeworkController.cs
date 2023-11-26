@@ -7,6 +7,9 @@ using SchoolHubApi.Repositories.Implementation;
 using SchoolHubApi.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using SchoolHubApi.Models.Course;
+using SchoolHubApi.Models.Pupil;
+using System.Linq;
 
 namespace SchoolHubApi.Controllers
 {
@@ -66,6 +69,26 @@ namespace SchoolHubApi.Controllers
             await _homeworkRepository.SaveChangesAsync();
 
             return Ok("Homework was submitted successfully.");
+        }
+
+        //листа учеников файл оценка
+        [HttpGet("{topicId:int}/Topics"), Auth(Role.Teacher)]
+        public async Task<ActionResult<List<PupilHomeworkModel>>> GetTeacherTopics(int topicId)
+        {
+            var homeworkList = await _homeworkRepository
+                .Find(h => h.TopicId == topicId)
+                .Include(h => h.Pupil.UserData)
+                .Select(h => new PupilHomeworkModel(
+                    h.Pupil.UserData.FirstName,
+                    h.Pupil.UserData.LastName,
+                    h.HomeworkFile,
+                    h.Mark.MarkName))
+                .ToListAsync();
+
+            if (homeworkList == null || homeworkList.Count == 0)
+                return NotFound("Homework not found");
+
+            return Ok(homeworkList);
         }
 
     }

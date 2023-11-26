@@ -1,11 +1,14 @@
-﻿namespace SchoolHubApi.Models.Topic
+﻿using SchoolHubApi.Models.Homework;
+
+namespace SchoolHubApi.Models.Topic
 {
     public record TopicSendFileModel
     (
-        int Id,
+        int TopicId,
         string TopicName,
         string TopicDescription,
         byte[] TeacherFile,
-        string TeacherFileType
+        string TeacherFileType,
+        List<HomeworkPupilModel> Homeworks
    );
 }

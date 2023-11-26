@@ -159,13 +159,12 @@ namespace SchoolHubApi.Controllers
                         topic.TopicName,
                         topic.Description,
                         topic.TopicFile,
-                        topic.TopicFileType))
-                        .ToList(),
-                    x.Topic.SelectMany(topic => topic.Homeworks)
-                        .Select(homework => new HomeworkPupilModel(
+                        topic.TopicFileType,
+                        topic.Homeworks.Select(homework => new HomeworkPupilModel(
                             homework.Id,
                             homework.HomeworkFile,
                             homework.HomeworkFileType))
+                        .ToList()))
                         .ToList()))
                 .FirstOrDefaultAsync();
 
