@@ -147,6 +147,8 @@ namespace SchoolHubApi.Controllers
         [HttpGet("{courseId:int}/Topics"), Auth(Role.Pupil)]
         public async Task<ActionResult<List<CourseTopicSendModel>>> GetPupilTopics(int courseId)
         {
+            var email = User.FindFirstValue(ClaimTypes.Name);
+            var pupil = _pupilRepository.Find(x => x.UserDataEmail ==email);
             var course = await _courseRepository
                 .Find(x => x.Id == courseId)
                 .Include(t => t.Topic)
