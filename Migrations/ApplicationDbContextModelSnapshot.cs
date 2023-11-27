@@ -137,10 +137,15 @@ namespace SchoolHubApi.Migrations
                     b.Property<int>("MarkName")
                         .HasColumnType("int");
 
+                    b.Property<int>("PupilId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HomeworkId")
                         .IsUnique();
+
+                    b.HasIndex("PupilId");
 
                     b.ToTable("Marks");
                 });
@@ -325,8 +330,8 @@ namespace SchoolHubApi.Migrations
                             Email = "schoolhubpl@gmail.com",
                             FirstName = "Admin",
                             LastName = "",
-                            PasswordHash = new byte[] { 81, 35, 24, 20, 124, 227, 87, 28, 121, 179, 126, 124, 216, 198, 170, 236, 248, 142, 98, 199, 203, 7, 148, 14, 177, 173, 175, 214, 24, 143, 51, 41, 231, 102, 161, 178, 253, 171, 202, 122, 67, 244, 37, 8, 86, 137, 238, 215, 170, 98, 89, 99, 67, 233, 97, 12, 243, 88, 68, 255, 207, 234, 219, 192 },
-                            PasswordSalt = new byte[] { 171, 71, 171, 84, 70, 198, 232, 114, 42, 45, 206, 234, 155, 252, 178, 14, 250, 180, 134, 220, 234, 46, 8, 226, 99, 90, 206, 26, 91, 217, 89, 172, 75, 204, 165, 205, 91, 132, 97, 72, 163, 79, 185, 164, 72, 189, 55, 22, 132, 242, 200, 48, 2, 30, 232, 225, 230, 177, 21, 75, 66, 137, 112, 176, 154, 142, 118, 24, 98, 220, 162, 250, 42, 101, 189, 218, 118, 48, 204, 162, 159, 104, 30, 216, 47, 15, 182, 52, 46, 24, 108, 254, 17, 176, 126, 11, 187, 186, 122, 91, 34, 55, 145, 28, 239, 137, 214, 64, 96, 45, 202, 124, 249, 191, 41, 173, 55, 179, 222, 3, 118, 159, 133, 159, 134, 190, 24, 41 },
+                            PasswordHash = new byte[] { 210, 177, 254, 227, 76, 120, 254, 33, 244, 196, 239, 191, 187, 101, 126, 11, 67, 63, 190, 81, 44, 30, 128, 44, 149, 5, 33, 198, 212, 132, 23, 208, 45, 1, 229, 127, 198, 5, 177, 198, 101, 52, 35, 22, 216, 41, 212, 100, 236, 63, 11, 250, 219, 73, 47, 187, 7, 85, 160, 159, 213, 146, 114, 135 },
+                            PasswordSalt = new byte[] { 82, 44, 14, 238, 175, 156, 165, 198, 160, 225, 88, 205, 183, 29, 90, 88, 121, 28, 83, 88, 148, 169, 18, 232, 150, 142, 173, 65, 137, 73, 207, 10, 255, 150, 186, 124, 48, 107, 137, 243, 232, 225, 21, 7, 75, 212, 225, 215, 33, 203, 54, 146, 85, 244, 64, 212, 254, 178, 180, 187, 13, 87, 138, 163, 210, 84, 82, 162, 13, 158, 210, 49, 127, 232, 136, 241, 210, 54, 8, 186, 78, 34, 229, 37, 20, 240, 61, 31, 153, 14, 4, 112, 157, 217, 106, 91, 117, 140, 30, 96, 191, 23, 105, 186, 163, 59, 46, 116, 5, 188, 167, 151, 231, 206, 28, 65, 118, 99, 9, 74, 129, 96, 42, 252, 71, 18, 75, 205 },
                             Pesel = "",
                             PhoneNumber = "",
                             Role = "Admin"
@@ -394,7 +399,15 @@ namespace SchoolHubApi.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("SchoolHubApi.Domain.Entities.Pupil", "Pupil")
+                        .WithMany("Marks")
+                        .HasForeignKey("PupilId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Homework");
+
+                    b.Navigation("Pupil");
                 });
 
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.Parent", b =>
@@ -479,6 +492,8 @@ namespace SchoolHubApi.Migrations
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.Pupil", b =>
                 {
                     b.Navigation("Homeworks");
+
+                    b.Navigation("Marks");
                 });
 
             modelBuilder.Entity("SchoolHubApi.Domain.Entities.Teacher", b =>

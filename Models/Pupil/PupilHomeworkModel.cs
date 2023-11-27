@@ -2,6 +2,7 @@
 {
     public record PupilHomeworkModel
     (
+        int pupilId,
         string pupilName,
         string pupilSurname,
         int? HomeworkId,

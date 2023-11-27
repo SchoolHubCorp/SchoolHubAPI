@@ -6,6 +6,7 @@ using SchoolHubApi.Models.Course;
 using SchoolHubApi.Repositories.Interface;
 using SchoolHubApi.Models.Topic;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace SchoolHubApi.Controllers
 {
@@ -89,5 +90,28 @@ namespace SchoolHubApi.Controllers
 
             return Ok("Topic was deleted sucsessfully");
         }
+
+        [HttpDelete("{topicId:int}/file"), Auth(Role.Teacher)]
+        public async Task<ActionResult> DeleteTopicFile(int topicId)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Name);
+            var teacher = await _teacherRepository.Find(x => x.UserDataEmail == email).FirstOrDefaultAsync();
+            if (teacher == null)
+                return NotFound("Teacher not Found");
+            var topic = await _topicRepository
+                .FindWithTracking(x => x.Id == topicId)
+                .FirstOrDefaultAsync();
+
+            if (topic == null)
+                return NotFound("Topic not found");
+
+            topic.TopicFileType = null;
+            topic.TopicFile = null;
+
+            await _topicRepository.SaveChangesAsync();
+
+            return Ok("File was deleted successfully.");
+        }
+
     }
 }

@@ -7,6 +7,8 @@ namespace SchoolHubApi.Domain.Entities
         public int MarkName { get; set; }
         public int HomeworkId { get; set; }
         public Homework Homework { get; set; }
+        public int PupilId { get; set; }
+        public Pupil Pupil { get; set; }
         private Mark()
         {
         }

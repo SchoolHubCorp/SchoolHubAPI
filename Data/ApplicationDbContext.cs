@@ -76,6 +76,11 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(h => h.TopicId)
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
+        modelBuilder.Entity<Mark>()
+            .HasOne(m => m.Pupil)
+            .WithMany(p => p.Marks)
+            .HasForeignKey(m => m.PupilId)
+            .OnDelete(DeleteBehavior.NoAction);
 
 
 

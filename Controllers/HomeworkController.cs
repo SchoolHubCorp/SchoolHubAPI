@@ -70,6 +70,27 @@ namespace SchoolHubApi.Controllers
 
             return Ok("Homework was submitted successfully.");
         }
+        [HttpDelete("{homeworkId:int}/deleteРomework"), Auth(Role.Pupil)]
+        public async Task<ActionResult> DeleteHomeworkFile(int homeworkId)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Name);
+            var pupil = await _pupilRepository.Find(x => x.UserDataEmail == email).FirstOrDefaultAsync();
+            if (pupil == null)
+                return NotFound("Pupil not Found");
+            var homework = await _homeworkRepository
+                .FindWithTracking(x => x.Id == homeworkId)
+                .FirstOrDefaultAsync();
+
+            if (homework == null)
+                return NotFound("Homework not found");
+
+            homework.HomeworkFile = null;
+            homework.HomeworkFileType = null;
+
+            await _homeworkRepository.SaveChangesAsync();
+
+            return Ok("Homework file content was deleted successfully");
+        }
 
         [HttpGet("{topicId:int}/Homeworks"), Auth(Role.Teacher)]
         public async Task<ActionResult<List<PupilHomeworkModel>>> CheckHomework(int topicId)
@@ -82,6 +103,7 @@ namespace SchoolHubApi.Controllers
                  .ToListAsync();
 
             var result = pupilsWithHomework.Select(pupil => new PupilHomeworkModel(
+                pupil.Id,
                 pupil.UserData.FirstName,
                 pupil.UserData.LastName,
                 pupil.Homeworks.FirstOrDefault(h => h.TopicId == topicId)?.Id,
