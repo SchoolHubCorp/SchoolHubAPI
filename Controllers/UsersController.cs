@@ -176,9 +176,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("ForgotPassword")]
-    public async Task<ActionResult> ForgotPassword([FromBody] string Email)
+    public async Task<ActionResult> ForgotPassword([FromBody] ResetPasswordModel request)
     {
-        var userInDb = _userRepository.FindWithTracking(x => x.Email == Email).FirstOrDefault();
+        if (!ModelState.IsValid) 
+        {
+            return BadRequest("Wrong email address");
+        }
+
+        var userInDb = _userRepository.FindWithTracking(x => x.Email == request.Email).FirstOrDefault();
         if (userInDb is null) 
         {
             return BadRequest("Wrong email, user doesn't exist");
@@ -186,17 +191,17 @@ public class UsersController : ControllerBase
 
         var userAccessCode = new ResetPasswordCode();
 
-        var request = new EmailRequest()
+        var requetsEmail = new EmailRequest()
         {
             Title = "ScoolHub Reset password",
             Body = $"Your reset code:{userAccessCode.ResetCode}" ,
-            ToEmail = Email
+            ToEmail = request.Email
         };
 
         userInDb.ResetPasswordCode = userAccessCode;
         await _userRepository.SaveChangesAsync();
 
-        await _emailService.SendEmailAsync(request);
+        await _emailService.SendEmailAsync(requetsEmail);
         return Ok("User access code was sent on written email");
     }
 
