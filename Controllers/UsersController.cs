@@ -178,11 +178,6 @@ public class UsersController : ControllerBase
     [HttpPost("ForgotPassword")]
     public async Task<ActionResult> ForgotPassword([FromBody] string Email)
     {
-        if (!ModelState.IsValid) 
-        {
-            return BadRequest("Wrong email address");
-        }
-
         var userInDb = _userRepository.FindWithTracking(x => x.Email == Email).FirstOrDefault();
         if (userInDb is null) 
         {

@@ -89,8 +89,8 @@ namespace SchoolHubApi.Controllers
 
             return Ok(coursesWithMarks);
         }
-        [HttpGet("{pupilId:int}/studentMarksPupil"), Auth(Role.Pupil)]
-        public async Task<ActionResult<IEnumerable<CourseWithMarks>>> GetStudentsMarks(int pupilId)
+        [HttpGet("studentMarksPupil"), Auth(Role.Pupil)]
+        public async Task<ActionResult<IEnumerable<CourseWithMarks>>> GetStudentsMarks()
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
             var pupil = await _pupilRepository
@@ -106,43 +106,41 @@ namespace SchoolHubApi.Controllers
                 return NotFound("Pupil not found");
 
             var coursesWithMarks = pupil.Marks
-                .GroupBy(mark => mark.Homework.Topic.Course)
-                .OrderBy(group => group.Key.CourseName)
-                .Select(group => new CourseWithMarks
-                (
-                   group.Key.CourseName,
-                   group.Select(mark => new MarkDto(mark.MarkName))
-                        .ToList()
+                .GroupBy(mark => mark.Homework.Topic.Course.CourseName)
+                .OrderBy(group => group.Key)
+                .Select(group => new CourseWithMarks(
+                    group.Key,
+                    group.Select(mark => new MarkDto(mark.MarkName)).ToList()
                 ))
                 .ToList();
 
+
             return Ok(coursesWithMarks);
         }
-        [HttpGet("{pupilId:int}/studentMarksTeacher"), Auth(Role.Teacher)]
-        public async Task<ActionResult<IEnumerable<PupilWithMarks>>> GetStudentMarksTeacher(int pupilId)
+
+        [HttpGet("{courseId:int}/studentMarksTeacher"), Auth(Role.Teacher)]
+        public async Task<ActionResult<IEnumerable<PupilWithMarks>>> GetStudentMarksTeacher(int courseId)
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
             var teacher = await _teacherRepository.Find(x => x.UserDataEmail == email).FirstOrDefaultAsync();
 
-            var pupil = await _pupilRepository
-                .FindWithTracking(x => x.Id == pupilId)
-                .Include(p => p.Marks)
-                    .ThenInclude(m => m.Homework)
-                        .ThenInclude(h => h.Topic)
-                            .ThenInclude(t => t.Course)
-                                .ThenInclude(c => c.Classroom)
-                .FirstOrDefaultAsync();
+            if (teacher == null)
+                return NotFound("Teacher not found");
 
-            if (pupil == null)
-                return NotFound("Pupil not found");
+            var marksForCourse = await _markRepository
+                .FindWithTracking(mark => mark.Homework.Topic.Course.Id == courseId) 
+                .Include(mark => mark.Homework)
+                    .ThenInclude(homework => homework.Pupil)
+                        .ThenInclude(pupil => pupil.UserData)
+                .ToListAsync();
 
-            var pupilWithMarksList = pupil.Marks
-                .GroupBy(mark => mark.Homework.Topic.Course)
-                .OrderBy(group => group.Key.CourseName)
+            var pupilWithMarksList = marksForCourse
+                .GroupBy(mark => mark.Homework.Pupil)
+                .OrderBy(group => group.Key.UserData.FirstName)
                 .Select(group => new PupilWithMarks
                 (
-                    PupilName: pupil.UserData.FirstName,
-                    PupilSurname: pupil.UserData.LastName,
+                    PupilName: group.Key.UserData.FirstName,
+                    PupilSurname: group.Key.UserData.LastName,
                     Marks: group
                         .Select(mark => new MarkDto(mark.MarkName))
                         .ToList()
@@ -151,6 +149,5 @@ namespace SchoolHubApi.Controllers
 
             return Ok(pupilWithMarksList);
         }
-
     }
 }

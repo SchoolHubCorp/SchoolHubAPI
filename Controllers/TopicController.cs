@@ -7,6 +7,7 @@ using SchoolHubApi.Repositories.Interface;
 using SchoolHubApi.Models.Topic;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using SchoolHubApi.Repositories.Implementation;
 
 namespace SchoolHubApi.Controllers
 {
@@ -18,13 +19,17 @@ namespace SchoolHubApi.Controllers
         private readonly ICourseRepository _courseRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IClassRepository _classRepository;
+        private readonly IHomeworkRepository _homeworkRepository;
+        private readonly IMarkRepository _markRepository;
 
-        public TopicController(ITopicRepository topicRepository, ITeacherRepository teacherRepository, ICourseRepository courseRepository, IClassRepository classRepository)
+        public TopicController(ITopicRepository topicRepository, ITeacherRepository teacherRepository, ICourseRepository courseRepository, IClassRepository classRepository, IHomeworkRepository homeworkRepository, IMarkRepository markRepository)
         {
             _teacherRepository = teacherRepository;
             _courseRepository = courseRepository;
             _classRepository = classRepository;
             _topicRepository = topicRepository;
+            _homeworkRepository = homeworkRepository;
+            _markRepository = markRepository;
         }
 
         [HttpPost, Auth(Role.Teacher)]
@@ -79,16 +84,32 @@ namespace SchoolHubApi.Controllers
         {
             var topic = await _topicRepository
                 .FindWithTracking(x => x.Id == topicId)
+                .Include(x => x.Homeworks)
+                .ThenInclude(x => x.Mark)
                 .FirstOrDefaultAsync();
 
             if (topic == null)
                 return NotFound("Topic not found");
 
+            foreach (var homework in topic.Homeworks)
+            {
+                var mark = homework.Mark;
+                if (mark != null)
+                {
+                    _markRepository.Remove(mark);
+                }
+            }
+
+            foreach (var homework in topic.Homeworks)
+            {
+                _homeworkRepository.Remove(homework);
+            }
+
             _topicRepository.Remove(topic);
 
             await _topicRepository.SaveChangesAsync();
 
-            return Ok("Topic was deleted sucsessfully");
+            return Ok("Topic was deleted successfully");
         }
 
         [HttpDelete("{topicId:int}/file"), Auth(Role.Teacher)]

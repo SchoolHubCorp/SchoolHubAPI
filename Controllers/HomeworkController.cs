@@ -50,33 +50,42 @@ namespace SchoolHubApi.Controllers
                (file.ContentType != "application/vnd.openxmlformats-officedocument.wordprocessingml.document"))
                 return BadRequest("Inappropriate file type");
 
-            var newHomework = new Homework
+            var existingHomework = topic.Homeworks.FirstOrDefault(x => x.PupilId == pupil.Id);
+
+            if (existingHomework == null)
             {
-                HomeworkFile = new byte[0],
-                HomeworkFileType = file.ContentType,
-                PupilId = pupil.Id,
-            };
+                existingHomework = new Homework
+                {
+                    HomeworkFile = new byte[0],
+                    PupilId = pupil.Id,
+                };
+                topic.Homeworks.Add(existingHomework);
+            }
+
+            existingHomework.HomeworkFileType = file.ContentType;
 
             if (file != null && file.Length > 0)
             {
                 using (var stream = new MemoryStream())
                 {
                     await file.CopyToAsync(stream);
-                    newHomework.HomeworkFile = stream.ToArray();
+                    existingHomework.HomeworkFile = stream.ToArray();
                 }
             }
-            topic.Homeworks.Add(newHomework);
+
             await _homeworkRepository.SaveChangesAsync();
 
             return Ok("Homework was submitted successfully.");
         }
-        [HttpDelete("{homeworkId:int}/deleteРomework"), Auth(Role.Pupil)]
+
+        [HttpDelete("{homeworkId:int}/deleteHomework"), Auth(Role.Pupil)]
         public async Task<ActionResult> DeleteHomeworkFile(int homeworkId)
         {
             var email = User.FindFirstValue(ClaimTypes.Name);
             var pupil = await _pupilRepository.Find(x => x.UserDataEmail == email).FirstOrDefaultAsync();
             if (pupil == null)
                 return NotFound("Pupil not Found");
+
             var homework = await _homeworkRepository
                 .FindWithTracking(x => x.Id == homeworkId)
                 .FirstOrDefaultAsync();
@@ -116,7 +125,5 @@ namespace SchoolHubApi.Controllers
 
             return Ok(result);
         }
-
-
     }
 }
