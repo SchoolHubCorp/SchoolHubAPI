@@ -49,17 +49,29 @@ namespace SchoolHubApi.Controllers
             if (pupil == null)
                 return NotFound("Pupil not found");
 
-            var newMark = new Mark(request.MarkName)
+            var existingMark = _markRepository.Find(x => x.HomeworkId == homeworkId && x.PupilId == pupilId).FirstOrDefault();
+
+            if (existingMark != null)
             {
-                HomeworkId = homeworkId,
-                PupilId = pupilId,
-            };
+                existingMark.MarkName = request.MarkName;
+                await _markRepository.SaveChangesAsync();
 
-            _markRepository.Add(newMark);
-            await _markRepository.SaveChangesAsync();
+                return new MarkModel(existingMark.MarkName, existingMark.Homework.Id, existingMark.Homework.Topic.TopicName);
+            }
+            else
+            {
+                var newMark = new Mark(request.MarkName)
+                {
+                    HomeworkId = homeworkId,
+                    PupilId = pupilId,
+                };
+                _markRepository.Add(newMark);
+                await _markRepository.SaveChangesAsync();
 
-            return new MarkModel(newMark.MarkName, newMark.Homework.Id, newMark.Homework.Topic.TopicName);
+                return new MarkModel(newMark.MarkName, newMark.Homework.Id, newMark.Homework.Topic.TopicName);
+            }
         }
+
         [HttpGet("{pupilId:int}/studentMarksAdmin"), Auth(Role.Admin)]
         public async Task<ActionResult<IEnumerable<CourseWithMarks>>> GetStudentMarks(int pupilId)
         {
