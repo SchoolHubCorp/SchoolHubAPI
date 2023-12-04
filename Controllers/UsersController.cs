@@ -92,10 +92,10 @@ public class UsersController : ControllerBase
 
         HashPasswordHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-        var child = _pupilRepository
-            .FindWithTracking(x => x.AccessCode == request.ChildCode)
-            .Include(x => x.Parents)
-            .FirstOrDefault();
+       var child = _pupilRepository
+        .FindWithTracking(x => x.AccessCode == request.ChildCode)
+        .Include(x => x.Parents)
+        .FirstOrDefault();
 
         if (child is null)
             return BadRequest("Incorrect child code");
@@ -141,8 +141,23 @@ public class UsersController : ControllerBase
         {
             return BadRequest("Email or password is incorrect.");
         }
+        string token;
 
-        var token = _configuration.GenerateJwtToken(userInDb);
+        if (userInDb.Role == Role.Parent) 
+        { 
+            var pupil = _pupilRepository
+                .Find(x => x.Parents.Any(y => y.UserDataEmail == userInDb.Email))
+                .Include(y => y.UserData)
+                .FirstOrDefault();
+            if (pupil == null) 
+            {
+                return BadRequest("You dont have children");
+            }
+            token = _configuration.GenerateJwtToken(pupil.UserData);
+
+        }
+        else
+            token = _configuration.GenerateJwtToken(userInDb);
 
         return new AuthenticateResponse(userInDb, token);
     }
